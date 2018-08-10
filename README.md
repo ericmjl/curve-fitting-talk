@@ -6,7 +6,7 @@ Presented at Digility 2018.
 
 ## accessing the slides
 
-Head over to: https://ericmjl.github.io/curve-fitting-talk!
+Slides will be up soon at: https://ericmjl.github.io/curve-fitting-talk!
 
 ## license
 
