@@ -2,7 +2,7 @@
 
 "Fret not, it's curve fitting all the way down!
 
-Presented at Digility 2018.
+To be presented at Digility 2018.
 
 ## accessing the slides
 
