@@ -19,9 +19,6 @@ install:
   - conda env create -f environment.yml
   - source activate curve-fitting-talk
 
-  # Ensure that the kernel is installed into the compute environment.
-  - python -m ipykernel install --user --name curve-fitting-talk
-
   # Install reveal-md
   - which npm
   - npm install -g reveal-md
