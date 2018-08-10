@@ -6,6 +6,12 @@ Digility 2018
 
 ---
 
+# Follow Along!
+
+[https://ericmjl.github.io/**curve-fitting-slides**](https://ericmjl.github.io/curve-fitting-slides)
+
+---
+
 # About Myself
 
 - Investigator, Scientific Data Analysis, NIBR
