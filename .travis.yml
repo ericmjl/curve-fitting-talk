@@ -29,7 +29,7 @@ script:
   # (see the "deploy" section below).
   - mkdir -p docs
   # Use reveal-md to build the slides
-  - reveal-md slides.md --static docs
+  - reveal-md slides.md --static docs --disable-auto-open
   - reveal-md slides.md --print docs/slides.pdf
 
 
