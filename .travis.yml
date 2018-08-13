@@ -19,17 +19,13 @@ install:
   - conda env create -f environment.yml
   - source activate curve-fitting-talk
 
-  # Install reveal-md
-  - which npm
-  - npm install -g reveal-md
-
 
 script:
   # Create the docs directory. This is where we will be publishing from
   # (see the "deploy" section below).
   - mkdir -p docs
   # Use reveal-md to build the slides
-  - reveal-md slides.md --static docs --disable-auto-open
+  - reveal-md slides.md --static docs
   - reveal-md slides.md --print docs/slides.pdf
 
 

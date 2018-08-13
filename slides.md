@@ -14,16 +14,16 @@ Digility 2018
 
 # About Myself
 
-- Investigator, Scientific Data Analysis, NIBR
-- Defended Sc.D thesis in 2017, MIT.
-- Self-taught machine & deep learner, Bayesian statistics, programming.
+- Investigator, Scientific Data Analysis, NIBR <!-- .element: class="fragment" -->
+- MIT Biological Engineering, ScD, 2017 <!-- .element: class="fragment" -->
+- Self-taught machine & deep learner, Bayesian statistics, programming <!-- .element: class="fragment" -->
 
 ---
 
 # Goal
 
-1. Contextualize ML in an application developer's toolbox.
-1. Demystify ML model classes with pictures and as few equations as possible.
+1. Contextualize ML in an application developer's toolbox. <!-- .element: class="fragment" -->
+1. Demystify ML model classes with pictures and as few equations as possible. <!-- .element: class="fragment" -->
 
 ---
 
@@ -40,9 +40,11 @@ Digility 2018
 
 # ML In Your Toolkit
 
-![](./images/toolkit.jpg)
+Machine learning:
 
-ML solves the problems that are ***too hard & tedious*** for us to hand-code.
+- maps inputs to outputs <!-- .element: class="fragment" -->
+- which are too complex and/or tedious for us to hand-code rules for <!-- .element: class="fragment" -->
+- using lots of data. <!-- .element: class="fragment" -->
 
 ----
 
@@ -54,6 +56,18 @@ Identifying objects in a picture.
 
 ## Example 2
 
+Taking speech inputs and returning text.
+
+----
+
+## Example 3
+
+
+
 ----
 
 # ML In Your Toolkit
+
+Machine learning systems learn a complicated function for you.
+
+---
