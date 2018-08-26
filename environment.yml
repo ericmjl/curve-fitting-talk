@@ -13,3 +13,4 @@ dependencies:
 - pandas
 - holoviews
 - bokeh
+- ipywidgets
