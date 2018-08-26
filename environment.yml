@@ -7,3 +7,9 @@ dependencies:
 - python=3.6
 - nodejs
 - pandoc
+- jupyterlab
+- pymc3
+- matplotlib
+- pandas
+- holoviews
+- bokeh
