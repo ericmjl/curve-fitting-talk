@@ -20,54 +20,52 @@ Digility 2018
 
 ---
 
-# Goal
+# Goals
 
-1. Contextualize ML in an application developer's toolbox. <!-- .element: class="fragment" -->
-1. Demystify ML model classes with pictures and as few equations as possible. <!-- .element: class="fragment" -->
+1. Demystify Bayesian statistical inference. <!-- .element: class="fragment" -->
+1. Illustrate a simple framework for thinking through Bayesian models. <!-- .element: class="fragment" -->
 
----
+----
 
 # Agenda
 
-1. Context: ML in a developer's toolkit
-1. Model Classes
-  1. Linear Models
-  1. Deep neural network Models
-  1. Bayesian models
-  1. Tree-based models
+1. Bayes' rule. <!-- .element: class="fragment" -->
+1. Bayesian estimation. <!-- .element: class="fragment" -->
+1. Bayesian linear regression. <!-- .element: class="fragment" -->
+1. Bayesian logistic regression. <!-- .element: class="fragment" -->
+1. Bayesian deep learning. <!-- .element: class="fragment" -->
+1. Bayesian hierarchical modelling. <!-- .element: class="fragment" -->
 
 ---
 
-# ML In Your Toolkit
+# Linear regression
 
-Machine learning:
-
-- maps inputs to outputs <!-- .element: class="fragment" -->
-- which are too complex and/or tedious for us to hand-code rules for <!-- .element: class="fragment" -->
-- using lots of data. <!-- .element: class="fragment" -->
-
-----
-
-## Example 1
-
-Identifying objects in a picture.
-
-----
-
-## Example 2
-
-Taking speech inputs and returning text.
-
-----
-
-## Example 3
-
-
-
-----
-
-# ML In Your Toolkit
-
-Machine learning systems learn a complicated function for you.
 
 ---
+
+# Logistic regression
+
+
+---
+
+# Deep learning
+
+
+---
+
+# Hierarchical models
+
+---
+
+# Flowchart
+
+1. Describe your data according to some probability distribution. <!-- .element: class="fragment" -->
+1. Are you comparing multiple groups? <!-- .element: class="fragment" -->
+1. Do you have multiple "predictor" variables to predict your outputs? <!-- .element: class="fragment" -->
+1. Do you know the math function that "links" your inputs to your outputs? <!-- .element: class="fragment" -->
+
+---
+
+# Example: Science & Digital Reality
+
+<!-- Core idea: we have darwin's finches, use Bayesian hierarchical modelling to write a model that estimates Finch beak dimensions (both wing and beak), and then use QR codes to display this information. -->
