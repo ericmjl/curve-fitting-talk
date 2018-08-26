@@ -1,3 +1,6 @@
+sudo: required
+addons:
+  chrome: stable
 language: python
 python:
   # We don't actually use the Travis Python, but this keeps it organized.
@@ -28,7 +31,7 @@ script:
   # (see the "deploy" section below).
   - mkdir -p docs
   # # Use reveal-md to build the slides
-  - reveal-md slides.md --static docs --disable-auto-open
+  - reveal-md slides.md --static docs --disable-auto-open --css custom.css
   - reveal-md slides.md --print docs/slides.pdf --disable-auto-open
   # Use pandoc to build the slides.
   # - pandoc -t revealjs -o docs/index.html slides.md
