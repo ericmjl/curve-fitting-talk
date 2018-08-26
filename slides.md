@@ -66,6 +66,6 @@ Digility 2018
 
 ---
 
-# Example: Science & Digital Reality
+# Example: Data Science Storytelling
 
 <!-- Core idea: we have darwin's finches, use Bayesian hierarchical modelling to write a model that estimates Finch beak dimensions (both wing and beak), and then use QR codes to display this information. -->
