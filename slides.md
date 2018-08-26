@@ -34,11 +34,51 @@ Digility 2018
 1. Bayesian linear regression. <!-- .element: class="fragment" -->
 1. Bayesian logistic regression. <!-- .element: class="fragment" -->
 1. Bayesian deep learning. <!-- .element: class="fragment" -->
-1. Bayesian hierarchical modelling. <!-- .element: class="fragment" -->
+
+---
+
+<!-- .slide: data-background="./images/bayes-rule-neon-sign.jpg" -->
+
+---
+
+# Bayesian estimation
 
 ---
 
 # Linear regression
+
+----
+
+## Functional form
+
+![](./images/linreg.tex.png) <!-- .element border="none" -->
+
+----
+
+## Matrices
+
+![](./images/linreg-matrices.png) <!-- .element border=none  -->
+
+----
+
+## Neural
+
+![](./images/linreg-neural.png) <!-- .element height="50%" width="50%" border=none -->
+
+
+----
+
+## Linear Regression 3 Ways
+
+![](./images/linreg-all.png)
+
+
+----
+
+## Bayesian Linear Regression
+
+
+![](./images/linreg-estimates.png) <!-- .element width="80%" class="fragment" -->
 
 
 ---
