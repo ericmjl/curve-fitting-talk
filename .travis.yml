@@ -30,6 +30,9 @@ script:
   # Create the docs directory. This is where we will be publishing from
   # (see the "deploy" section below).
   - mkdir -p docs
+  # Create QR codes using scripts.py.
+  - python scripts.py contactqr
+  - python scripts.py slidesqr
   # # Use reveal-md to build the slides
   - reveal-md slides.md --static docs --disable-auto-open --css custom.css
   - reveal-md slides.md --print docs/slides.pdf --disable-auto-open
