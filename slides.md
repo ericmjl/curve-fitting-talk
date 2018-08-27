@@ -42,7 +42,7 @@ Scan QR code to bookmark slides!
 
 ---
 
-<!-- .slide: data-background="https://github.com/ericmjl/curve-fitting-talk/raw/master/images/bayes-rule-neon-sign.jpg" -->
+<!-- .slide: data-background="images/bayes-rule-neon-sign.jpg" -->
 
 ---
 
