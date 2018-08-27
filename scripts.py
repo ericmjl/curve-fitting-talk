@@ -24,11 +24,5 @@ def contactqr():
     pq.create(str(mecard)).png('images/ericmjl.png', scale=10)
 
 
-@main.command()
-def execute_all():
-    slidesqr()
-    contactqr()
-
-
 if __name__ == '__main__':
     main()
