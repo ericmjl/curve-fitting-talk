@@ -14,3 +14,8 @@ dependencies:
 - holoviews
 - bokeh
 - ipywidgets
+- cython
+- click
+- pip:
+  - git+https://github.com/heuer/pyqrcode.git
+  - pypng
