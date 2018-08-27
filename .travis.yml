@@ -34,7 +34,7 @@ script:
   - python scripts.py contactqr
   - python scripts.py slidesqr
   # # Use reveal-md to build the slides
-  - reveal-md slides.md --static docs --disable-auto-open --css custom.css
+  - reveal-md slides.md --static docs --disable-auto-open --css custom.css --theme white
   - reveal-md slides.md --print docs/slides.pdf --disable-auto-open
 
 
