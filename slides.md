@@ -13,7 +13,7 @@ Scan QR Code to save my contact info. <!-- .element align="right" -->
 
 ![](./images/talk.png) <!-- .element width="30%" -->
 
-Scan this QR code to bookmark these slides!
+Scan QR code to bookmark slides!
 
 ---
 
@@ -21,7 +21,7 @@ Scan this QR code to bookmark these slides!
 
 - Investigator, Scientific Data Analysis, NIBR <!-- .element: class="fragment" -->
 - MIT Biological Engineering, ScD, 2017 <!-- .element: class="fragment" -->
-- Self-taught machine & deep learner, Bayesian statistics, programming <!-- .element: class="fragment" -->
+- Self-taught machine & deep learner, Bayesian Pythonista <!-- .element: class="fragment" -->
 
 ---
 
