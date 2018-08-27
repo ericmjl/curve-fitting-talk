@@ -33,8 +33,6 @@ script:
   # # Use reveal-md to build the slides
   - reveal-md slides.md --static docs --disable-auto-open --css custom.css
   - reveal-md slides.md --print docs/slides.pdf --disable-auto-open
-  # Use pandoc to build the slides.
-  # - pandoc -t revealjs -o docs/index.html slides.md
 
 
 # This is an example to deploy to a branch through Travis.
