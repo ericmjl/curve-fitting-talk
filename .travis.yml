@@ -29,7 +29,8 @@ install:
 script:
   # Create the docs directory. This is where we will be publishing from
   # (see the "deploy" section below).
-  - mkdir -p docs
+  - mkdir -p docs/images
+  - mkdir -p docs/_assets
 
   # Create QR codes using scripts.py.
   - python scripts.py contactqr
