@@ -1,6 +1,10 @@
+---
+title: Curve Fitting!
+---
+
 # Fret Not, It's Curve Fitting All The Way Down!
 
-![](./images/ericmjl.png) <!-- .element width="20%" align="left" -->
+![](./images/ericmjl.png) <!-- .element width="250px" align="left" -->
 
 Eric J. Ma, Digility 2018 <!-- .element align="right" -->
 
@@ -11,7 +15,7 @@ Scan QR Code to save my contact info. <!-- .element align="right" -->
 
 [https://ericmjl.github.io/**curve-fitting-talk**](https://ericmjl.github.io/curve-fitting-talk)
 
-![](./images/talk.png) <!-- .element width="30%" -->
+![](./images/talk.png) <!-- .element width="250px" -->
 
 Scan QR code to bookmark slides!
 
