@@ -16,6 +16,7 @@ dependencies:
 - ipywidgets
 - cython
 - click
+- jupyter-contrib-nbextensions
 - pip:
   - git+https://github.com/heuer/pyqrcode.git
   - pypng
