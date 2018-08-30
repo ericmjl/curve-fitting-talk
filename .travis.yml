@@ -30,7 +30,7 @@ script:
   # Create the docs directory. This is where we will be publishing from
   # (see the "deploy" section below).
   - mkdir -p docs/images
-  - mkdir -p docs/_assets
+  # - mkdir -p docs/_assets
 
   # Create QR codes using scripts.py.
   - python scripts.py contactqr
@@ -38,11 +38,11 @@ script:
 
   # Copy over the necessary things into the docs/ folder.
   - cp -r images/* docs/images/.
-  - cp custom.css docs/_assets/.
+  # - cp custom.css docs/_assets/.
 
   # # Use reveal-md to build the slides
   - reveal-md slides.md --static docs --disable-auto-open --css custom.css --theme white
-  - reveal-md slides.md --print docs/slides.pdf --disable-auto-open
+  - reveal-md slides.md --print docs/slides.pdf --disable-auto-open --theme white --css custom.css
 
 
 # This is an example to deploy to a branch through Travis.

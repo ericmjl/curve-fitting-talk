@@ -6,7 +6,7 @@ title: Curve Fitting!
 
 ![](./images/ericmjl.png) <!-- .element width="250px" align="left" -->
 
-*a.k.a. a crash course in Bayesian statistical modelling* <!-- .element align="right" -->
+Eric J. Ma, Digility 2018 <!-- .element align="right" -->
 
 Scan QR Code to save my contact info. <!-- .element align="right" -->
 
