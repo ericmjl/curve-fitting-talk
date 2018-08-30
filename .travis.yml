@@ -37,7 +37,7 @@ script:
   - python scripts.py slidesqr
 
   # Copy over the necessary things into the docs/ folder.
-  - cp images/* docs/images/.
+  - cp -r images/* docs/images/.
   - cp custom.css docs/_assets/.
 
   # # Use reveal-md to build the slides
