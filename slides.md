@@ -6,9 +6,10 @@ title: Curve Fitting!
 
 ![](./images/ericmjl.png) <!-- .element width="250px" align="left" -->
 
-Eric J. Ma, Digility 2018 <!-- .element align="right" -->
+*a.k.a. a crash course in Bayesian statistical modelling* <!-- .element align="right" -->
 
 Scan QR Code to save my contact info. <!-- .element align="right" -->
+
 ---
 
 # Follow Along!
@@ -32,7 +33,7 @@ Scan QR code to bookmark slides!
 # Goals
 
 1. Demystify Bayesian statistical inference. <!-- .element: class="fragment" -->
-1. Illustrate a simple framework for thinking through Bayesian models. <!-- .element: class="fragment" -->
+1. Illustrate the link between Bayesian statistics and deep learning<!-- .element: class="fragment" -->
 
 ----
 
@@ -42,7 +43,7 @@ Scan QR code to bookmark slides!
 1. Bayesian estimation. <!-- .element: class="fragment" -->
 1. Bayesian linear regression. <!-- .element: class="fragment" -->
 1. Bayesian logistic regression. <!-- .element: class="fragment" -->
-1. Bayesian deep learning. <!-- .element: class="fragment" -->
+1. Arbitrary Bayesian curve fitting. <!-- .element: class="fragment" -->
 
 ---
 
@@ -50,71 +51,58 @@ Scan QR code to bookmark slides!
 
 ---
 
-# Bayesian estimation
+## Estimation
 
----
-
-# Linear regression
-
-----
-
-## Functional form
-
-![](./images/linreg.tex.png) <!-- .element border="none" -->
+![](./images/framework/estimation/data.png) <!-- .element width="20%" class="fragment"-->
+![](./images/framework/estimation/point.png) <!-- .element width="20%"  class="fragment"-->
+![](./images/framework/estimation/distribution.png) <!-- .element width="20%"  class="fragment"-->
+![](./images/framework/estimation/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
 
 ----
 
-## Matrices
+## Linear regression
 
-![](./images/linreg-matrices.png) <!-- .element border=none  -->
-
-----
-
-## Neural
-
-![](./images/linreg-neural.png) <!-- .element height="50%" width="50%" border=none -->
-
+![](./images/framework/linreg/data.png) <!-- .element width="20%" class="fragment"-->
+![](./images/framework/linreg/point.png) <!-- .element width="20%"  class="fragment"-->
+![](./images/framework/linreg/distribution.png) <!-- .element width="20%"  class="fragment"-->
+![](./images/framework/linreg/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
 
 ----
 
-## Linear Regression 3 Ways
+## Logistic regression
 
-![](./images/linreg-all.png)
-
+![](./images/framework/logreg/data.png) <!-- .element width="20%" class="fragment"-->
+![](./images/framework/logreg/point.png) <!-- .element width="20%"  class="fragment"-->
+![](./images/framework/logreg/distribution.png) <!-- .element width="20%"  class="fragment"-->
+![](./images/framework/logreg/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
 
 ----
 
-## Bayesian Linear Regression
+## Parametric Curves
 
+![](./images/framework/curves/data.png) <!-- .element width="20%" class="fragment"-->
+![](./images/framework/curves/point.png) <!-- .element width="20%"  class="fragment"-->
+![](./images/framework/curves/distribution.png) <!-- .element width="20%"  class="fragment"-->
+![](./images/framework/curves/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
 
-![](./images/linreg-estimates.png) <!-- .element width="80%" class="fragment" -->
+----
 
+## Neural Networks
 
----
+![](./images/framework/nn/data.png) <!-- .element width="20%" class="fragment"-->
+![](./images/framework/nn/point.png) <!-- .element width="20%"  class="fragment"-->
+![](./images/framework/nn/distribution.png) <!-- .element width="20%"  class="fragment"-->
+![](./images/framework/nn/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
 
-# Logistic regression
+----
 
-
----
-
-# Deep learning
-
-
----
-
-# Hierarchical models
-
----
-
-# Flowchart
-
-1. Describe your data according to some probability distribution. <!-- .element: class="fragment" -->
-1. Are you comparing multiple groups? <!-- .element: class="fragment" -->
-1. Do you have multiple "predictor" variables to predict your outputs? <!-- .element: class="fragment" -->
-1. Do you know the math function that "links" your inputs to your outputs? <!-- .element: class="fragment" -->
+![](./images/bayesian-framework.png) <!-- .element width="63%"-->
 
 ---
 
-# Example: Data Science Storytelling
+# Example: Darwin's Finches
 
 <!-- Core idea: we have darwin's finches, use Bayesian hierarchical modelling to write a model that estimates Finch beak dimensions (both wing and beak), and then use QR codes to display this information. -->
+
+---
+
