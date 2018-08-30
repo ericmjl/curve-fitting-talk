@@ -4,11 +4,11 @@ title: Curve Fitting!
 
 # Fret Not, It's Curve Fitting All The Way Down!
 
-![](./static/images/ericmjl.png) <!-- .element width="250px" align="left" -->
+![](./static/images/ericmjl.png) <!-- .element: width="250px" align="left" -->
 
-Eric J. Ma, Digility 2018 <!-- .element align="right" -->
+Eric J. Ma, Digility 2018 <!-- .element: align="right" -->
 
-Scan QR Code to save my contact info. <!-- .element align="right" -->
+Scan QR Code to save my contact info. <!-- .element: align="right" -->
 
 ---
 
@@ -16,7 +16,7 @@ Scan QR Code to save my contact info. <!-- .element align="right" -->
 
 [https://ericmjl.github.io/**curve-fitting-talk**](https://ericmjl.github.io/curve-fitting-talk)
 
-![](./static/images/talk.png) <!-- .element width="250px" -->
+![](./static/images/talk.png) <!-- .element: width="250px" -->
 
 Scan QR code to bookmark slides!
 
@@ -33,7 +33,7 @@ Scan QR code to bookmark slides!
 # Goals
 
 1. Demystify Bayesian statistical inference. <!-- .element: class="fragment" -->
-1. Illustrate the link between Bayesian statistics and deep learning<!-- .element: class="fragment" -->
+1. Illustrate the link between Bayesian statistics and deep learning. <!-- .element: class="fragment" -->
 
 ----
 
