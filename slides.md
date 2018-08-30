@@ -4,7 +4,7 @@ title: Curve Fitting!
 
 # Fret Not, It's Curve Fitting All The Way Down!
 
-![](./images/ericmjl.png) <!-- .element width="250px" align="left" -->
+![](./static/images/ericmjl.png) <!-- .element width="250px" align="left" -->
 
 Eric J. Ma, Digility 2018 <!-- .element align="right" -->
 
@@ -16,7 +16,7 @@ Scan QR Code to save my contact info. <!-- .element align="right" -->
 
 [https://ericmjl.github.io/**curve-fitting-talk**](https://ericmjl.github.io/curve-fitting-talk)
 
-![](./images/talk.png) <!-- .element width="250px" -->
+![](./static/images/talk.png) <!-- .element width="250px" -->
 
 Scan QR code to bookmark slides!
 
@@ -47,56 +47,56 @@ Scan QR code to bookmark slides!
 
 ---
 
-<!-- .slide: data-background="images/bayes-rule-neon-sign.jpg" -->
+<!-- .slide: data-background="static/images/bayes-rule-neon-sign.jpg" -->
 
 ---
 
 ## Estimation
 
-![](./images/framework/estimation/data.png) <!-- .element width="20%" class="fragment"-->
-![](./images/framework/estimation/point.png) <!-- .element width="20%"  class="fragment"-->
-![](./images/framework/estimation/distribution.png) <!-- .element width="20%"  class="fragment"-->
-![](./images/framework/estimation/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/estimation/data.png) <!-- .element width="20%" class="fragment"-->
+![](./static/images/framework/estimation/point.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/estimation/distribution.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/estimation/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
 
 ----
 
 ## Linear regression
 
-![](./images/framework/linreg/data.png) <!-- .element width="20%" class="fragment"-->
-![](./images/framework/linreg/point.png) <!-- .element width="20%"  class="fragment"-->
-![](./images/framework/linreg/distribution.png) <!-- .element width="20%"  class="fragment"-->
-![](./images/framework/linreg/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/linreg/data.png) <!-- .element width="20%" class="fragment"-->
+![](./static/images/framework/linreg/point.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/linreg/distribution.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/linreg/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
 
 ----
 
 ## Logistic regression
 
-![](./images/framework/logreg/data.png) <!-- .element width="20%" class="fragment"-->
-![](./images/framework/logreg/point.png) <!-- .element width="20%"  class="fragment"-->
-![](./images/framework/logreg/distribution.png) <!-- .element width="20%"  class="fragment"-->
-![](./images/framework/logreg/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/logreg/data.png) <!-- .element width="20%" class="fragment"-->
+![](./static/images/framework/logreg/point.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/logreg/distribution.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/logreg/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
 
 ----
 
 ## Parametric Curves
 
-![](./images/framework/curves/data.png) <!-- .element width="20%" class="fragment"-->
-![](./images/framework/curves/point.png) <!-- .element width="20%"  class="fragment"-->
-![](./images/framework/curves/distribution.png) <!-- .element width="20%"  class="fragment"-->
-![](./images/framework/curves/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/curves/data.png) <!-- .element width="20%" class="fragment"-->
+![](./static/images/framework/curves/point.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/curves/distribution.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/curves/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
 
 ----
 
 ## Neural Networks
 
-![](./images/framework/nn/data.png) <!-- .element width="20%" class="fragment"-->
-![](./images/framework/nn/point.png) <!-- .element width="20%"  class="fragment"-->
-![](./images/framework/nn/distribution.png) <!-- .element width="20%"  class="fragment"-->
-![](./images/framework/nn/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/nn/data.png) <!-- .element width="20%" class="fragment"-->
+![](./static/images/framework/nn/point.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/nn/distribution.png) <!-- .element width="20%"  class="fragment"-->
+![](./static/images/framework/nn/hierarchical.png) <!-- .element width="20%"  class="fragment"-->
 
 ----
 
-![](./images/bayesian-framework.png) <!-- .element width="63%"-->
+![](./static/images/bayesian-framework.png) <!-- .element width="63%"-->
 
 ---
 

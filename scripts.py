@@ -1,7 +1,9 @@
 import click
 import pyqrcode as pq
 from pyqrcode.qrspecial import QrMeCard
+from pathlib import Path
 
+img_dir = Path('static/images')
 
 @click.group()
 def main():
@@ -11,7 +13,7 @@ def main():
 @main.command()
 def slidesqr():
     url = 'https://ericmjl.github.io/curve-fitting-talk/'
-    pq.create(url).png('images/talk.png', scale=10)
+    pq.create(url).png(img_dir / 'talk.png', scale=10)
 
 
 @main.command()
@@ -21,7 +23,7 @@ def contactqr():
     note = 'DIGILITY 2018, speaker, Bayesian.'
 
     mecard = QrMeCard(name=name, url=url, memo=note)
-    pq.create(str(mecard)).png('images/ericmjl.png', scale=10)
+    pq.create(str(mecard)).png(img_dir / 'ericmjl.png', scale=10)
 
 
 if __name__ == '__main__':
