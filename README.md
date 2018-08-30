@@ -2,11 +2,11 @@
 
 "Fret not, it's curve fitting all the way down!
 
-To be presented at Digility 2018.
+To be presented at [Digility 2018](https://www.digility.de).
 
 ## accessing the slides
 
-Slides will be up soon at: https://ericmjl.github.io/curve-fitting-talk!
+Slides will be up on [GitHub pages](https://ericmjl.github.io/curve-fitting-talk!)
 
 ## license
 
