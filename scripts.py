@@ -19,10 +19,9 @@ def slidesqr():
 @main.command()
 def contactqr():
     name = 'Eric J. Ma'
-    url = 'https://ericmjl.github.io'
-    note = 'DIGILITY 2018, speaker, Bayesian.'
+    url = ('https://ericmjl.github.io')
 
-    mecard = QrMeCard(name=name, url=url, memo=note)
+    mecard = QrMeCard(name=name, url=url)
     pq.create(str(mecard)).png(img_dir / 'ericmjl.png', scale=10)
 
 

@@ -43,6 +43,7 @@ script:
   # # Use reveal-md to build the slides
   - reveal-md slides.md --static docs --disable-auto-open --css static/custom.css --theme white --featured-slide 1 --static-dirs=static
   - reveal-md slides.md --print docs/slides.pdf --disable-auto-open --theme white --css static/custom.css
+  - mv ./docs/css ./docs/_css
 
 
 # This is an example to deploy to a branch through Travis.
