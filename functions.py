@@ -34,7 +34,9 @@ def load_data(data_dir):
 
 
 def hv_scatter(df):
-    ds = hv.Dataset(df, vdims=["beak_length", "beak_depth"], kdims=["species", "year"])
+    ds = hv.Dataset(
+        df, vdims=["beak_length", "beak_depth"], kdims=["species", "year"]
+    )
     opts = {
         "Scatter": {
             "width": 200,
