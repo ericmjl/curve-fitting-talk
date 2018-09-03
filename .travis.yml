@@ -33,8 +33,8 @@ script:
   # - mkdir -p docs/_assets
 
   # Create QR codes using scripts.py.
-  - python scripts.py contactqr
-  - python scripts.py slidesqr
+  - make qr
+  - make render
 
   # Copy over the necessary things into the docs/ folder.
   - cp -r images/* docs/images/.
