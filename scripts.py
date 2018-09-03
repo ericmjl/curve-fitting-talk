@@ -4,8 +4,9 @@ from pyqrcode.qrspecial import QrMeCard
 from pathlib import Path
 from functions import load_data, hv_scatter, hv_render
 
-img_dir = Path('static/images')
-data_dir = Path('notebooks/data')
+img_dir = Path("assets/images")
+data_dir = Path("notebooks/data")
+
 
 @click.group()
 def main():
