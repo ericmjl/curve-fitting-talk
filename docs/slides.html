@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Curve Fitting!</title>
+        <link rel="stylesheet" href="./css/reveal.css">
+        <link rel="stylesheet" href="./css/theme/white.css" id="theme">
+        <link rel="stylesheet" href="./css/highlight/zenburn.css">
+        <link rel="stylesheet" href="./css/print/paper.css" type="text/css" media="print">
+        <link rel="stylesheet" href="./assets/static/custom.css">
+        <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css" type="text/css" />
+        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
+        <script type="text/javascript">
+            Bokeh.set_log_level("info");
+        </script>
+
+
+    </head>
+    <body>
+        <div class="reveal">
+          <div class="slides">
+            <section>
+              <h1>Fret Not, It's Curve Fitting All The Way Down!</h1>
+              <img src="./static/images/ericmjl.png" width="250px" align="left">
+              <p align="right">Eric J. Ma, Digility 2018</p>
+              <p align="right">Scan QR Code to save my contact info.</p>
+            </section>
+
+            <section>
+              <h1>Follow Along!</h1>
+              <p><a href="https://ericmjl.github.io/curve-fitting-talk">ericmjl.github.io/<b>curve-fitting-talk</b></a></p>
+              <p><img src="./static/images/talk.png" width="250px"></p>
+            </section>
+
+            <section>
+              <h1>About Myself</h1>
+              <ul>
+                <li class="fragment">Investigator, Scientific Data Analysis, NIBR</li>
+                <li class="fragment">MIT Biological Engineering, ScD, 2017</li>
+                <li class="fragment">Self-taught machine & deep learner, Bayesian Pythonista</li>
+              </ul>
+            </section>
+
+            <section>
+              <h1>Goals</h1>
+              <ol>
+                <li class="fragment">Demystify Bayesian statistical inference.</li>
+                <li class="fragment">Illustrate the link between Bayesian statistics and deep learning.</li>
+              </ol>
+            </section>
+
+            <section>
+              <section data-background="static/images/bayes-rule-neon-sign.jpg"></section>
+              <section>
+                <h2>Estimation</h2>
+                <img src="./static/images/framework/estimation/data.png" width=20% class="fragment">
+                <img src="./static/images/framework/estimation/point.png" width=20% class="fragment">
+                <img src="./static/images/framework/estimation/distribution.png" width=20% class="fragment">
+                <img src="./static/images/framework/estimation/hierarchical.png" width=20% class="fragment">
+              </section>
+
+              <section>
+                <h2>Linear Regression</h2>
+                <img src="./static/images/framework/linreg/data.png" width=20% class="fragment">
+                <img src="./static/images/framework/linreg/point.png" width=20% class="fragment">
+                <img src="./static/images/framework/linreg/distribution.png" width=20% class="fragment">
+                <img src="./static/images/framework/linreg/hierarchical.png" width=20% class="fragment">
+              </section>
+
+
+              <section>
+                <h2>Logistic regression</h2>
+                <img src="./static/images/framework/logreg/data.png" width=20% class="fragment">
+                <img src="./static/images/framework/logreg/point.png" width=20% class="fragment">
+                <img src="./static/images/framework/logreg/distribution.png" width=20% class="fragment">
+                <img src="./static/images/framework/logreg/hierarchical.png" width=20% class="fragment">
+              </section>
+
+
+              <section>
+                <h2>Parametric Curves</h2>
+                <img src="./static/images/framework/curves/data.png" width=20% class="fragment">
+                <img src="./static/images/framework/curves/point.png" width=20% class="fragment">
+                <img src="./static/images/framework/curves/distribution.png" width=20% class="fragment">
+                <img src="./static/images/framework/curves/hierarchical.png" width=20% class="fragment">
+              </section>
+
+              <section>
+                <h2>Neural Networks</h2>
+                <img src="./static/images/framework/nn/data.png" width=20% class="fragment">
+                <img src="./static/images/framework/nn/point.png" width=20% class="fragment">
+                <img src="./static/images/framework/nn/distribution.png" width=20% class="fragment">
+                <img src="./static/images/framework/nn/hierarchical.png" width=20% class="fragment">
+              </section>
+            </section>
+
+            <section>
+              <section>
+                <h1>Example: Data Science Storytelling</h1>
+              </section>
+              <section>
+                {{ scatter_div }}
+                {{ scatter_script }}
+              </section>
+              <section>
+                <h2>Have the finches evolved from 1975 to 2012?</h2>
+              </section>
+              <section>
+                <h2>Bayesian Hierarchical Estimation Model</h2>
+              </section>
+            </section>
+
+          </div>
+        </div>
+
+
+        <script src="./lib/js/head.min.js"></script>
+        <script src="./js/reveal.js"></script>
+
+        <!-- Reveal.js init -->
+        <script>
+            function extend() {
+              var target = {};
+              for (var i = 0; i < arguments.length; i++) {
+                var source = arguments[i];
+                for (var key in source) {
+                  if (source.hasOwnProperty(key)) {
+                    target[key] = source[key];
+                  }
+                }
+              }
+              return target;
+            }
+
+            // Optional libraries used to extend on reveal.js
+            var deps = [
+              { src: './lib/js/classList.js', condition: function() { return !document.body.classList; } },
+              { src: './plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: './plugin/markdown/markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: './plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+              { src: './plugin/zoom-js/zoom.js', async: true },
+              { src: './plugin/notes/notes.js', async: true },
+              { src: './plugin/math/math.js', async: true }
+            ];
+
+            // default options to init reveal.js
+            var defaultOptions = {
+              controls: true,
+              progress: true,
+              history: true,
+              center: true,
+              transition: 'default', // none/fade/slide/convex/concave/zoom
+              dependencies: deps
+            };
+
+            // options from URL query string
+            var queryOptions = Reveal.getQueryHash() || {};
+
+            var options = {};
+            options = extend(defaultOptions, options, queryOptions);
+        </script>
+
+
+        <script>
+          Reveal.initialize(options);
+        </script>
+    </body>
+</html>
