@@ -37,25 +37,29 @@ script:
   - python scripts.py slidesqr
 
   # Copy over the necessary things into the docs/ folder.
-  # - cp -r images/* docs/images/.
-  # - cp custom.css docs/_assets/.
+  - cp -r images/* docs/images/.
+  - cp custom.css docs/_assets/.
 
   # # Use reveal-md to build the slides
   - reveal-md slides.md --static docs --disable-auto-open --css static/custom.css --theme white --featured-slide 1 --static-dirs=static
   - reveal-md slides.md --print docs/slides.pdf --disable-auto-open --theme white --css static/custom.css
 
-  # Fix the "docs" _assets bug
-  - cd ./docs
-  - mv _assets assets  # remove underscore
-  - sed -i 's/_assets/assets/g' index.html  # change underscore in index.
+  # Fix the "docs" _assets bug.
+  # Specifically: gh-pages doesn't recognize folders that are prefixed by an
+  # underscore. This means that _assets is not discoverable in the live page.
+  # - cd ./docs
+  # - mv _assets assets  # remove underscore
+  # - sed -i 's/_assets/assets/g' index.html  # change underscore in index.
 
 
 # This is an example to deploy to a branch through Travis.
 deploy:
   provider: pages
   skip-cleanup: true
-  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep-history: false  # setting to false force pushes, preventing a bloated repository.
+  # Set in the settings page of your repository, as a secure variable
+  github-token: $GITHUB_TOKEN
+  # setting to false force pushes, preventing a bloated repository.
+  keep-history: false
   # We read the master branch
   on:
     branch: master
