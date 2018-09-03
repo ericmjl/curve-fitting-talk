@@ -2,8 +2,10 @@ import click
 import pyqrcode as pq
 from pyqrcode.qrspecial import QrMeCard
 from pathlib import Path
+from functions import load_data, hv_scatter, hv_render
 
 img_dir = Path('static/images')
+data_dir = Path('notebooks/data')
 
 @click.group()
 def main():
@@ -24,6 +26,12 @@ def contactqr():
     mecard = QrMeCard(name=name, url=url)
     pq.create(str(mecard)).png(img_dir / 'ericmjl.png', scale=10)
 
+
+@main.command()
+def render():
+    df = load_data(data_dir)
+    plot = hv_scatter(df)
+    hv_render(plot)
 
 if __name__ == '__main__':
     main()
