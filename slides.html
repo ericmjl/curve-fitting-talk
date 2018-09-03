@@ -1,0 +1,269 @@
+<html>
+  <head>
+    <script type="text/javascript" src="./assets/revealjs/lib/js/head.min.js"></script>
+    <link rel="stylesheet" href="./assets/revealjs/css/reveal.css">
+    <link rel="stylesheet" href="./assets/revealjs/css/theme/white.css">
+    <!-- Next up, syntax highlighting. -->
+    <link rel="stylesheet" href="./assets/revealjs/lib/css/zenburn.css"/>
+    <link rel="stylesheet" type="text/css" href="./assets/custom.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.pydata.org/bokeh/release/bokeh-tables-0.13.0.min.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section id="introduction">
+          <h1>Fret Not, It's Curve Fitting All The Way Down!</h1>
+          <img src="./assets/images/ericmjl.png" width="250px" align="left">
+          <p align="right">"epiphanies in Bayes-land"</p>
+          <p align="right">Eric J. Ma, Digility 2018</p>
+        </section>
+
+        <section id="follow-along">
+          <h1>Follow Along!</h1>
+          <p><a href="https://ericmjl.github.io/curve-fitting-talk">ericmjl.github.io/<b>curve-fitting-talk</b></a></p>
+          <p><img src="./assets/images/talk.png" width="250px"></p>
+        </section>
+
+        <section id="about">
+          <h1>About Myself</h1>
+          <ul>
+            <li class="fragment">Investigator, Scientific Data Analysis, NIBR</li>
+            <li class="fragment">MIT Biological Engineering, ScD, 2017</li>
+            <li class="fragment">Self-taught machine & deep learner, Bayesian Pythonista</li>
+          </ul>
+        </section>
+
+        <section id="goals">
+          <h1>Goals</h1>
+          <ol>
+            <li class="fragment">Demystify basic concepts in Bayesian statistical inference</li>
+            <li class="fragment">Using lots of pictures and minimal equations.</li>
+          </ol>
+        </section>
+
+        <section id="bayes-rule-neon-sign" data-background="./assets/images/bayes-rule-neon-sign.jpg"></section>
+
+        <section id="estimation">
+          <section id="estimation-images">
+            <h2>Estimation</h2>
+            <img src="./assets/images/framework/estimation/data.png" width=20% class="fragment">
+            <img src="./assets/images/framework/estimation/point.png" width=20% class="fragment">
+            <img src="./assets/images/framework/estimation/distribution.png" width=20% class="fragment">
+            <img src="./assets/images/framework/estimation/hierarchical.png" width=20% class="fragment">
+          </section>
+          <section id="estimation-model-diagram">
+            <img src="./assets/images/framework/estimation/model.png" alt="" width=70%>
+          </section>
+          <section id="estimation-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                import numpy as np
+                import pymc3 as pm
+
+                data = np.random.normal(loc=6, sd=2, size=1000)
+                with pm.Model() as model:
+                    # Priors
+                    sd = pm.Exponential('sd', lam=5)
+                    mu = pm.Normal('mu', mu=0, sd=100)
+
+                    # Likelihood for data
+                    like = pm.Normal('like', mu=mu, sd=sd, observed=data)
+              </code>
+            </pre>
+          </section>
+        </section>
+
+        <section id="linreg">
+          <section id="linreg-images">
+            <h2>Linear Regression</h2>
+            <img src="./assets/images/framework/linreg/data.png" width=20% class="fragment">
+            <img src="./assets/images/framework/linreg/point.png" width=20% class="fragment">
+            <img src="./assets/images/framework/linreg/distribution.png" width=20% class="fragment">
+            <img src="./assets/images/framework/linreg/hierarchical.png" width=20% class="fragment">
+          </section>
+          <section id="linreg-model-diagram">
+            <img src="./assets/images/framework/linreg/model.png" alt="" width=80%>
+          </section>
+          <section id="linreg-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                import pymc3 as pm
+                import numpy as np
+
+                x = np.random.normal(loc=0, sd=10, size=1000)
+                m = 10; c = 6;
+                y = m * x + c + np.random.normal(0, 0.2)
+
+                with pm.Model() as model:
+                    # Priors
+                    m = pm.Normal('m', loc=0, sd=100)
+                    c = pm.Normal('c', loc=0, sd=100)
+                    sd = pm.Exponential('sd', lam=5)
+
+                    # Link function
+                    mu = m * x + c
+
+                    # Likelihood for data
+                    like = pm.Normal('like', mu=mu, sd=sd, observed=y)
+              </code>
+            </pre>
+          </section>
+        </section>
+
+        <section id="logreg">
+          <section id="logreg-images">
+            <h2>Logistic regression</h2>
+            <img src="./assets/images/framework/logreg/data.png" width=20% class="fragment">
+            <img src="./assets/images/framework/logreg/point.png" width=20% class="fragment">
+            <img src="./assets/images/framework/logreg/distribution.png" width=20% class="fragment">
+            <img src="./assets/images/framework/logreg/hierarchical.png" width=20% class="fragment">
+          </section>
+          <section id="logreg-model-diagram">
+            <img src="./assets/images/framework/logreg/model.png" alt="" width=40%>
+          </section>
+          <section id="logreg-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                import pymc3 as pm
+                import numpy as np
+
+                with pm.Model() as model:
+                    # Priors
+                    beta = pm.Normal('beta', mu=0, sd=100)
+
+                    # Link function
+                    p = 1 / (1 + beta * x)
+
+                    # Likelihood for data
+                    like = pm.Bernoulli('like', p=p, observed=data)
+              </code>
+            </pre>
+          </section>
+        </section>
+
+        <section id="curves">
+          <section id="curves-images">
+            <h2>Parametric Curves</h2>
+            <img src="./assets/images/framework/curves/data.png" width=20% class="fragment">
+            <img src="./assets/images/framework/curves/point.png" width=20% class="fragment">
+            <img src="./assets/images/framework/curves/distribution.png" width=20% class="fragment">
+            <img src="./assets/images/framework/curves/hierarchical.png" width=20% class="fragment">
+          </section>
+          <section id="curves-diagram">
+            <img src="./assets/images/framework/curves/model.png" alt="">
+          </section>
+          <section id="curves-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                import pymc3 as pm
+                import numpy as np
+
+                with pm.Model() as model:
+                    # Priors
+                    A = pm.HalfNormal('A', sd=100)
+                    b = pm.Normal('b', mu=0, sd=100)
+                    C = pm.HalfNormal('C', sd=100)
+                    sd = pm.Exponential('sd', lam=5)
+
+                    # Link function
+                    mu = A * tt.exp(-b * x) + C
+
+                    # Likelihood for data
+                    like = pm.Normal('like', mu=mu, lam=lam, observed=data)
+              </code>
+            </pre>
+          </section>
+        </section>
+
+        <section id="nn">
+          <section id="nn-images">
+            <h2>Neural Networks</h2>
+            <img src="./assets/images/framework/nn/data.png" width=20% class="fragment">
+            <img src="./assets/images/framework/nn/point.png" width=20% class="fragment">
+            <img src="./assets/images/framework/nn/distribution.png" width=20% class="fragment">
+            <img src="./assets/images/framework/nn/hierarchical.png" width=20% class="fragment">
+          </section>
+          <section id="nn-diagram">
+            <img src="./assets/images/framework/nn/model.png" alt="" width=80%>
+          </section>
+          <section id="nn-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                def nn(x):
+                    w1 = pm.Normal('w1', mu=0, sd=1, shape=(x.shape[1], x.shape[1]))
+                    b1 = pm.Normal('b1', mu=0, sd=1, shape=(x.shape[1]))
+                    a1 = tt.tanh(tt.dot(x, w1) + b1)
+
+                    w2 = pm.Normal('w2', mu=0, sd=1, shape=(x.shape[1], 1))
+                    b2 = pm.Normal('b2', mu=0, sd=1, shape=(1,))
+                    a2 = tt.tanh(tt.dot(a1, w2) + b2)
+
+                    return a2
+
+                with pm.Model() as model:
+                    mu = nn(x)
+                    sd = pm.Exponential('sd', lam=5)
+                    like = pm.Normal('like', mu=mu, sd=sd, observed=data)
+              </code>
+            </pre>
+          </section>
+          <section id="nn-question">
+            <h1>But what exactly is a neural network?</h1>
+          </section>
+          <section id="nn-infographic">
+            <img src="./assets/images/framework/nn/nn-matrices.png" alt="" width=70%>
+          </section>
+          <section id="nn-answer">
+            <p class="fragment">Deep neural networks are nothing more than matrix transformations on input data.</p>
+            <p class="fragment"><i>They are nothing more than fancy curve fitters!</i></p>
+          </section>
+          <section id="nn-more-info">
+            <p>For more information, check out another talk I did at <a href="https://www.youtube.com/watch?v=s0S6HFdPtlA">PyData NYC 2017</a>!</p>
+            <!-- <img src="./assets/images/pydata.png" alt=""> -->
+            <iframe width="800" height="400" src="https://www.youtube.com/embed/s0S6HFdPtlA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Example: Darwin's Finches</h1>
+            <h2>A case study in data science storytelling.</h2>
+          </section>
+          <section data-transition="fade-out">
+            <img src="./assets/images/finches.png" width="50%">
+          </section>
+          <section data-transition="fade-in">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Darwin%27s_finches_by_Gould.jpg" width=70%>
+          </section>
+          <section>
+            {{ scatter_div }}
+            {{ scatter_script }}
+          </section>
+          <section>
+            <h2>Have the finches evolved from 1975 to 2012?</h2>
+          </section>
+          <section>
+            <h2>Bayesian Hierarchical Estimation Model</h2>
+          </section>
+        </section>
+      </div>
+    </div>
+    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
+    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.js"></script>
+    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-tables-0.13.0.min.js"></script>
+    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-api-0.13.0.min.js"></script>
+    <script src="./assets/revealjs/js/reveal.js"></script>
+    <script type="text/javascript">
+      Reveal.initialize({
+        history: true,
+        dependencies: [
+                    // Syntax highlight for <code> elements
+                    { src: './assets/revealjs/plugin/highlight/highlight.js',
+                      async: true,
+                      callback: function() { hljs.initHighlightingOnLoad(); } },
+                ]
+      });
+    </script>
+  </body>
+</html>
