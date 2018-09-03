@@ -44,13 +44,6 @@ script:
   - reveal-md slides.md --static docs --disable-auto-open --css static/custom.css --theme white --featured-slide 1 --static-dirs=static
   - reveal-md slides.md --print docs/slides.pdf --disable-auto-open --theme white --css static/custom.css
 
-  # Fix the "docs" _assets bug.
-  # Specifically: gh-pages doesn't recognize folders that are prefixed by an
-  # underscore. This means that _assets is not discoverable in the live page.
-  # - cd ./docs
-  # - mv _assets assets  # remove underscore
-  # - sed -i 's/_assets/assets/g' index.html  # change underscore in index.
-
 
 # This is an example to deploy to a branch through Travis.
 deploy:
