@@ -59,7 +59,7 @@ def hv_render(scatter_facet):
     renderer = hv.renderer("bokeh")
     plot = renderer.get_plot(scatter_facet).state
     script, div = components(plot)
-    with open("./docs/slides.html", "r+") as f:
+    with open("./slides.html", "r+") as f:
         template = Template(f.read())
 
     with open("./docs/index.html", "w+") as f:
