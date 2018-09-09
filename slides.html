@@ -230,32 +230,118 @@
             <iframe width="800" height="400" src="https://www.youtube.com/embed/s0S6HFdPtlA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
           </section>
         </section>
-        <!-- <section>
-          <section>
-            <h1>Example: Darwin's Finches</h1>
-            <h2>A case study in data science storytelling.</h2>
-          </section>
-          <section data-transition="fade-out">
-            <img src="./assets/images/finches.png" width="50%">
-          </section>
-          <section data-transition="fade-in">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Darwin%27s_finches_by_Gould.jpg" width=70%>
-          </section>
-          <section>
-            {{ scatter_div }}
-            {{ scatter_script }}
-          </section>
-          <section>
-            <h2>Have the finches evolved from 1975 to 2012?</h2>
-          </section>
-          <section>
-            <h2>Bayesian Hierarchical Estimation Model</h2>
-          </section>
-        </section> -->
         <section id="design">
           <section id="design-title-slide">
             <h2>How can Bayesian methods can help you design more reasonably?</h2>
             <p class="fragment">By "reasonably", we mean "in a way that doesn't violate common statistical sense".</p>
+          </section>
+        </section>
+        <section id="hockey">
+          <section id="hockey-title-slide">
+            <p>How do we quantify ice hockey goaltender performance?</p>
+            <img src="./assets/images/design/jacob-markstrom.jpg" alt="">
+            <p style="font-size:15">
+              <caption>Image from
+                <a href="http://forum.canucks.com/topic/379072-nhl-goalie-rankings-5/">Canucks forums</a>.
+              </caption>
+            </p>
+          </section>
+          <section id="hockey-goalie-stats">
+            <table>
+              <tr>
+                <th>ID</th>
+                <th>Goals Against</th>
+                <th>Goals Saved</th>
+                <th>Save Percentage</th>
+              </tr>
+              <tr class="fragment">
+                <td>Jake Allen</td>
+                <td>1614</td>
+                <td>1462</td>
+                <td class="fragment">0.906</td>
+              </tr>
+              <tr class="fragment">
+                <td>Dylan Ferguson</td>
+                <td>2</td>
+                <td>1</td>
+                <td class="fragment">0.500</td>
+              </tr>
+              <tr class="fragment">
+                <td>Scott Foster</td>
+                <td>7</td>
+                <td>7</td>
+                <td class="fragment">1.000</td>
+              </tr>
+            </table>
+            <p>Who is the better goalie?</p>
+          </section>
+          <section id="hockey-model-naive">
+            <img src="./assets/images/design/baseball-model.png" alt="" width=30% align="right">
+            <p class="fragment" align="left">Each player is estimated <b>independently</b>.</p>
+            <p class="fragment" align="left"><b>beta distribution</b> tells us how uncertain we are about a probability parameter.</p>
+            <p class="fragment" align="left"><b>binomial distribution</b> gives us the <i>likelihood function</i> for the data.</p>
+          </section>
+          <section id="hockey-model-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                 with pm.Model() as nopool:
+                    n_players = len(df)
+                    p = pm.Beta('p', alpha=1, beta=1, shape=(n_players,))
+                    like = pm.Binomial('likelihood',
+                                       n=df['SA'],
+                                       p=p,
+                                       observed=df['SV'])
+              </code>
+            </pre>
+          </section>
+          <section>
+            {{ elements['hockey_unpooled_div'] }}
+            {{ elements['hockey_unpooled_script'] }}
+            <p class="fragment">Is Dylan Ferguson really that bad?</p>
+          </section>
+          <section>
+            <h1>Let's try again</h1>
+          </section>
+          <section id="hockey-model-hierarchical">
+            <img src="./assets/images/design/baseball-hierarchical-model.png" alt="" width="45%" align="right">
+            <p class="fragment" align="left"><b>beta distribution</b>: <i>α</i> is "number of successes", while <i>β</i> is "number of failures.</p>
+            <p class="fragment" align="left"><b>hyperpriors</b>: <i>φ</i> is a "population" success probability, while <i>κ</i> models total number of data points.</p>
+            <p class="fragment" align="left"><b>Expresses that players follow a population distribution.</b></p>
+          </section>
+          <section id="hockey-model-hierarchical-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                with pm.Model() as pool:
+                    n_players = len(df)
+
+                    phi = pm.Uniform('phi', lower=0.0, upper=1.0)
+                    kappa_log = pm.Exponential('kappa_log', lam=1.5)
+                    kappa = pm.Deterministic('kappa', tt.exp(kappa_log))
+
+                    p = pm.Beta('p', alpha=phi*kappa,
+                                beta=(1.0-phi)*kappa,
+                                shape=(n_players,))
+
+                    like = pm.Binomial('likelihood',
+                                       n=df['SA'],
+                                       p=p,
+                                       observed=df['SV'])
+              </code>
+            </pre>
+
+          </section>
+          <section>
+            {{ elements['hockey_pooled_div'] }}
+            {{ elements['hockey_pooled_script'] }}
+            <p class="fragment">We believe that players without much data should be considered average.</p>
+          </section>
+          <section id="hockey-design">
+            <h2>Some pointers</h2>
+            <ol>
+              <li>Average user: won't parse raw numbers well.</li>
+              <li>Models should incorporate reasonable prior information.</li>
+              <li>Uncertainty expresses confidence.</li>
+            </ol>
           </section>
         </section>
         <section id="epiphanies">

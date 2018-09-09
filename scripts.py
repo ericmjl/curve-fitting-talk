@@ -2,7 +2,7 @@ import click
 import pyqrcode as pq
 from pyqrcode.qrspecial import QrMeCard
 from pathlib import Path
-from functions import load_data, hv_scatter, hv_render
+from functions import load_hockey_traces, make_posterior_trace, render_posterior_trace, write_components
 
 img_dir = Path("assets/images")
 data_dir = Path("notebooks/data")
@@ -36,9 +36,22 @@ def contactqr():
 
 @main.command()
 def render():
-    df = load_data(data_dir)
-    plot = hv_scatter(df)
-    hv_render(plot)
+    elements = dict()
+
+    df = load_hockey_traces(data_dir, pooled=False)
+    curve = make_posterior_trace(df)
+    script, div = render_posterior_trace(curve)
+    elements['hockey_unpooled_script'] = script
+    elements['hockey_unpooled_div'] = div
+
+    df = load_hockey_traces(data_dir, pooled=True)
+    curve = make_posterior_trace(df)
+    script, div = render_posterior_trace(curve)
+    elements['hockey_pooled_script'] = script
+    elements['hockey_pooled_div'] = div
+
+    write_components(elements)
+
 
 
 if __name__ == "__main__":
