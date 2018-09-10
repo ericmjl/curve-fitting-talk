@@ -146,7 +146,7 @@
                     beta = pm.Normal('beta', mu=0, sd=100)
 
                     # Link function
-                    p = 1 / (1 + beta * x)
+                    p = 1 / (1 + np.exp(beta * x))
 
                     # Likelihood for data
                     like = pm.Bernoulli('like', p=p, observed=data)
