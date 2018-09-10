@@ -18,6 +18,7 @@ dependencies:
 - click
 - jupyter_contrib_nbextensions
 - datashader
+- pyjanitor
 - pip:
   - git+https://github.com/heuer/pyqrcode.git
   - pypng
