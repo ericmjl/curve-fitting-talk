@@ -33,9 +33,7 @@ def load_finches(data_dir):
 
 
 def scatter_finches(df):
-    ds = hv.Dataset(
-        df, vdims=["beak_length", "beak_depth"], kdims=["species", "year"]
-    )
+    ds = hv.Dataset(df, vdims=["beak_length", "beak_depth"], kdims=["species", "year"])
     opts = {
         "Scatter": {
             "width": 200,
@@ -60,6 +58,7 @@ def finch_components(scatter_facet):
     script, div = components(plot)
     return script, div
 
+
 def write_components(elements: dict):
     with open("./slides.html", "r+") as f:
         template = Template(f.read())
@@ -70,27 +69,25 @@ def write_components(elements: dict):
 
 def load_hockey_traces(data_dir: Path, pooled: bool):
     if pooled:
-        df = pd.read_csv(data_dir / 'goalie_pool_posterior.csv')
+        df = pd.read_csv(data_dir / "goalie_pool_posterior.csv")
     else:
-        df = pd.read_csv(data_dir / 'goalie_nopool_posterior.csv')
+        df = pd.read_csv(data_dir / "goalie_nopool_posterior.csv")
 
-    df = df.filter_on(df['iter'] % 10 == 0)
+    df = df.filter_on(df["iter"] % 10 == 0)
     return df
 
 
 def make_posterior_trace(df):
-    players = ['Dylan Ferguson', 'Scott Foster', "Jake Allen"]
+    players = ["Dylan Ferguson", "Scott Foster", "Jake Allen"]
 
-    opts = {
-        "BoxWhisker": {
-            "width": 600,
-            "height": 400,
-            "tools": ["pan", "hover"],
-        }
-    }
+    opts = {"BoxWhisker": {"width": 400, "height": 400, "tools": ["pan", "hover"]}}
 
-    ds = hv.Dataset(df, kdims=['Player'], vdims=['p'])
-    curve = ds.select(Player=players).to(hv.BoxWhisker, kdims=['Player'], vdims=['p']).options(opts)
+    ds = hv.Dataset(df, kdims=["Player"], vdims=["p"])
+    curve = (
+        ds.select(Player=players)
+        .to(hv.BoxWhisker, kdims=["Player"], vdims=["p"])
+        .options(opts)
+    )
     return curve
 
 

@@ -333,7 +333,12 @@
           <section>
             {{ elements['hockey_pooled_div'] }}
             {{ elements['hockey_pooled_script'] }}
-            <p class="fragment">We believe that players without much data should be considered average.</p>
+            <p class="fragment">We believe that players without much data should be considered average, but with high uncertainty.</p>
+          </section>
+          <section>
+            {{ elements['hockey_shrinkage_script'] }}
+            {{ elements['hockey_shrinkage_div'] }}
+            <p>With Bayesian partial pooling, we can impose reasonable prior knowledge about players on the modelling procedure.</p>
           </section>
           <section id="hockey-design">
             <h2>Some pointers</h2>
@@ -349,13 +354,22 @@
             <h1>Epiphanies in Bayes-land</h1>
           </section>
           <section id="reflections-on-ml">
-            <h2>Bayesian methods can help us design more reasonably.</h2>
+            {{ elements['hockey_combined_div'] }}
+            {{ elements['hockey_combined_script'] }}
+            <p>Bayesian methods can help us design more reasonably.</p>
           </section>
           <section id="reflections-on-ml-2">
-            <h2>ML is nothing more than transformations on input data.</h2>
+            <img src="./assets/images/bayesian-framework.png" alt="" width=55%>
+            <p>Fret not, it's curve fitting...</p>
           </section>
           <section id="reflections-on-ml-3">
-            <h2>Fret not, it's curve fitting all the way down! 😄</h2>
+            <img src="./assets/images/all-the-way-down.png" alt="">
+            <p>...all the way down! 😄</p>
+          </section>
+        </section>
+        <section id="thank-you">
+          <section>
+            <h1>Thank you, Digility!</h1>
           </section>
         </section>
       </div>
