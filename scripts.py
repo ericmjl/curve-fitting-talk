@@ -79,7 +79,7 @@ def render():
         .rename_column("value", "p")
     )
     ds = hv.Dataset(shrinkage, vdims=["p"], kdims=["Pooling", "Player"])
-    curve3 = ds.to(hv.Curve).overlay("Player").options({'Curve': {'width': 600}})
+    curve3 = ds.to(hv.Curve).overlay("Player").options({"Curve": {"width": 600}})
     script, div = render_posterior_trace(curve3)
     elements["hockey_shrinkage_script"] = script
     elements["hockey_shrinkage_div"] = div
