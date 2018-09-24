@@ -49,7 +49,7 @@
           <section id="goals">
             <h1>Goals</h1>
             <ol>
-              <li class="fragment">Demystify basic concepts in Bayesian statistical inference, using lots of pictures and minimal equations.</li>
+              <li class="fragment">Demystify deep learning and its relationship to statistical modelling, using lots of pictures and minimal equations.</li>
               <li class="fragment">Show how Bayesian methods can help you design more reasonably.</li>
             </ol>
           </section>
@@ -98,6 +98,9 @@
           <section id="linreg-model-diagram">
             <img src="./assets/images/framework/linreg/model.png" alt="" width=80%>
           </section>
+          <section id="linreg-infographic">
+            <img src="./assets/images/framework/linreg/linreg-matrices.png" alt="" width=70%>
+          </section>
           <section id="linreg-code">
             <pre>
               <code data-trim data-noescape class="py">
@@ -135,6 +138,9 @@
           <section id="logreg-model-diagram">
             <img src="./assets/images/framework/logreg/model.png" alt="" width=40%>
           </section>
+          <section id="logreg-infographic">
+            <img src="./assets/images/framework/logreg/logreg-matrices.png" alt="" width=50%>
+          </section>
           <section id="logreg-code">
             <pre>
               <code data-trim data-noescape class="py">
@@ -146,7 +152,7 @@
                     beta = pm.Normal('beta', mu=0, sd=100)
 
                     # Link function
-                    p = 1 / (1 + np.exp(beta * x))
+                    p = 1 / (1 + np.exp(-beta * x))
 
                     # Likelihood for data
                     like = pm.Bernoulli('like', p=p, observed=data)
@@ -165,6 +171,9 @@
           </section>
           <section id="curves-diagram">
             <img src="./assets/images/framework/curves/model.png" alt="">
+          </section>
+          <section id="curves-infographic">
+            <img src="./assets/images/framework/curves/curves-matrices.png" alt="" width=50%>
           </section>
           <section id="curves-code">
             <pre>
@@ -232,7 +241,7 @@
             <p class="fragment"><i>They are nothing more than fancy curve fitters!</i></p>
           </section>
           <section id="nn-more-info">
-            <p>For more details and pretty pictures, check out another talk I did at <a href="https://www.youtube.com/watch?v=s0S6HFdPtlA">PyData NYC 2017</a>!</p>
+            <p>For more illustrations and details, check out another talk I did at <a href="https://www.youtube.com/watch?v=s0S6HFdPtlA">PyData NYC 2017</a>!</p>
             <iframe width="800" height="400" src="https://www.youtube.com/embed/s0S6HFdPtlA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
           </section>
         </section>
