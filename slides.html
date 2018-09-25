@@ -40,11 +40,22 @@
           </section>
           <section id="about">
             <h1>About Myself</h1>
-            <ul>
-              <li class="fragment">Investigator, Scientific Data Analysis, NIBR</li>
-              <li class="fragment">MIT Biological Engineering, ScD, 2017</li>
-              <li class="fragment">Self-taught machine & deep learner, Bayesian Pythonista</li>
-            </ul>
+            <table>
+              <tr>
+                <td class="fragment" width="33%">
+                  <img src="./assets/images/novartis.gif" alt="">
+                  <p>Investigator, Scientific Data Analysis</p>
+                </td>
+                <td class="fragment" width="33%">
+                  <img src="./assets/images/mit.gif" alt="">
+                  <p>ScD, Biological Engineering, 2017</p>
+                </td>
+                <td class="fragment" width="33%">
+                  <img src="./assets/images/python.gif" alt="">
+                  <p>Bayesian Pythonista</p>
+                </td>
+              </tr>
+            </table>
           </section>
           <section id="goals">
             <h1>Goals</h1>
@@ -54,6 +65,9 @@
             </ol>
           </section>
           <section id="bayes-rule-neon-sign" data-background="./assets/images/bayes-rule-neon-sign.jpg">
+          </section>
+          <section id="distribution-shapes">
+            <img src="https://ericmjl.github.io/bayesian-stats-talk/images/beliefs.jpg" alt="">
           </section>
         </section>
 
@@ -180,6 +194,7 @@
               <code data-trim data-noescape class="py">
                 import pymc3 as pm
                 import numpy as np
+                import theano.tensor as tt
 
                 with pm.Model() as model:
                     # Priors
@@ -192,7 +207,7 @@
                     mu = A * tt.exp(-b * x) + C
 
                     # Likelihood for data
-                    like = pm.Normal('like', mu=mu, lam=lam, observed=data)
+                    like = pm.Normal('like', mu=mu, sd=sd, observed=data)
               </code>
             </pre>
           </section>
