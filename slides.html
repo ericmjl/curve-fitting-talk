@@ -247,8 +247,6 @@
             <h2>How can Bayesian methods can help you design more reasonably?</h2>
             <p class="fragment">By "reasonably", we mean "in a way that doesn't violate common statistical sense".</p>
           </section>
-        </section>
-        <section id="hockey">
           <section id="hockey-title-slide">
             <p>How do we quantify ice hockey goaltender performance?</p>
             <img src="./assets/images/design/jacob-markstrom.jpg" alt="">
@@ -287,6 +285,12 @@
             </table>
             <p>Who is the better goalie?</p>
           </section>
+        </section>
+        <section id="hockey-naive-slides">
+          <section id="hocky-model-naive-title">
+            <h1>Simplest Model</h1>
+            <p>Let's assume that each player is independent of each other.</p>
+          </section>
           <section id="hockey-model-naive">
             <img src="./assets/images/design/baseball-model.png" alt="" width=30% align="right">
             <p class="fragment" align="left">Each player is estimated <b>independently</b>.</p>
@@ -306,13 +310,16 @@
               </code>
             </pre>
           </section>
-          <section>
+          <section id="hockey-model-naive-results">
             {{ elements['hockey_unpooled_div'] }}
             {{ elements['hockey_unpooled_script'] }}
             <p class="fragment">Is Dylan Ferguson really that bad?</p>
           </section>
-          <section>
+        </section>
+        <section id="hockey-hierarchical-slides">
+          <section id="hockey-model-try-again">
             <h1>Let's try again</h1>
+            <p>This time, we should try a model that encodes a more reasonable intuition.</p>
           </section>
           <section id="hockey-model-hierarchical">
             <img src="./assets/images/design/baseball-hierarchical-model.png" alt="" width="45%" align="right">
@@ -342,22 +349,26 @@
             </pre>
 
           </section>
-          <section>
+          <section id="hockey-model-hierarchical-results">
             {{ elements['hockey_pooled_div'] }}
             {{ elements['hockey_pooled_script'] }}
             <p class="fragment">We believe that players without much data should be considered average, but with high uncertainty.</p>
           </section>
-          <section>
+        </section>
+        <section id="pointers">
+          <section id="pointers-title">
+            <h1>Some Pointers</h1>
+          </section>
+          <section id="pointers-shrinkage">
             {{ elements['hockey_shrinkage_script'] }}
             {{ elements['hockey_shrinkage_div'] }}
             <p>With Bayesian partial pooling, we can impose reasonable prior knowledge about players on the modelling procedure.</p>
           </section>
-          <section id="hockey-design">
-            <h2>Some pointers</h2>
+          <section id="pointers-design">
             <ol>
-              <li>Average user: won't parse raw numbers well.</li>
-              <li>Models should incorporate reasonable prior information.</li>
-              <li>Uncertainty expresses confidence.</li>
+              <li class="fragment">Average user: won't parse raw numbers well.</li>
+              <li class="fragment">Models should incorporate reasonable prior information.</li>
+              <li class="fragment">Uncertainty expresses confidence.</li>
             </ol>
           </section>
         </section>
@@ -370,17 +381,20 @@
             {{ elements['hockey_combined_script'] }}
             <p>Bayesian methods can help us design more reasonably.</p>
           </section>
-          <section id="reflections-on-ml-2">
+          <section id="reflections-probabilistic-programming">
+            <p>Probabilistic programming lets you mix-and-match statistics and deep learning. (Thomas Wiecki)</p>
+
+          </section>
+          <section id="reflections-fret-not-1">
             <img src="./assets/images/bayesian-framework.png" alt="" width=55%>
             <p>Fret not, it's curve fitting...</p>
           </section>
-          <section id="reflections-on-ml-3">
+          <section id="reflections-fret-not-2">
             <img src="./assets/images/all-the-way-down.png" alt="">
             <p>...all the way down! 😄</p>
           </section>
         </section>
-        <section id="thank-you">
-          <section>
+          <section id="thank-you">
             <h1>Thank you, Digility!</h1>
           </section>
         </section>
