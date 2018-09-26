@@ -68,9 +68,9 @@
           <section id="goals">
             <h1>Goals</h1>
             <ol>
-              <li class="fragment">Demystify deep learning and its relationship to statistical modelling, using lots of pictures and minimal equations.</li>
-              <li class="fragment">Show how Bayesian methods can help you design more reasonably.</li>
-              <li class="fragment">Introduce probabilistic programming as a tool that you can use.</li>
+              <li class="fragment"><span class="fragment highlight-red">Demystify deep learning</span> and its relationship to statistical modelling, using lots of pictures and minimal equations.</li>
+              <li class="fragment">Show how Bayesian methods can help you <span class="fragment highlight-red">design more reasonably</span>.</li>
+              <li class="fragment"><span class="fragment highlight-red">Introduce probabilistic programming</span> as a tool that in your toolkit.</li>
             </ol>
           </section>
           <section id="bayes-rule-neon-sign" data-background="./assets/images/bayes-rule-neon-sign.jpg">
@@ -314,12 +314,17 @@
           <section id="hocky-model-naive-title">
             <h1>Simplest Model</h1>
             <p>Let's assume that each player is independent of each other.</p>
+            <div class="fragment">
+              <p>We are interested in
+                <code>p</code>, the goalie's <b>probability of saving a goal</b>.</p>
+            </div>
+
           </section>
           <section id="hockey-model-naive">
             <img src="./assets/images/design/baseball-model.png" alt="" width=30% align="right">
-            <p class="fragment" align="left">Each player is estimated <b>independently</b>.</p>
-            <p class="fragment" align="left"><b>beta distribution</b> tells us how uncertain we are about a probability parameter.</p>
-            <p class="fragment" align="left"><b>binomial distribution</b> gives us the <i>likelihood function</i> for the data.</p>
+            <p style="text-align: left">Each player is estimated <b>independently</b>.</p>
+            <p class="fragment" style="text-align: left"><b>binomial distribution</b> models number of successes out of a number of trials.</p>
+            <p class="fragment" style="text-align: left"><b>beta distribution</b> tells us how uncertain we are about a probability parameter.</p>
           </section>
           <section id="hockey-model-code">
             <pre>
@@ -347,9 +352,10 @@
           </section>
           <section id="hockey-model-hierarchical">
             <img src="./assets/images/design/baseball-hierarchical-model.png" alt="" width="45%" align="right">
-            <p class="fragment" align="left"><b>beta distribution</b>: <i>α</i> is "number of successes", while <i>β</i> is "number of failures.</p>
-            <p class="fragment" align="left"><b>hyperpriors</b>: <i>φ</i> is a "population" success probability, while <i>κ</i> models total number of data points.</p>
-            <p class="fragment" align="left"><b>Expresses that players follow a population distribution.</b></p>
+            <p class="fragment" style="text-align: left"><b>Players follow a population distribution.</b></p>
+            <p class="fragment" style="text-align: left"><b>beta distribution</b>: <i>α</i> is "number of successes", while <i>β</i> is "number of failures.</p>
+            <p class="fragment" style="text-align: left"><b>hyperpriors</b>: <i>φ</i> is a "population" success probability, while <i>κ</i>
+              models total number of data points.</p>
           </section>
           <section id="hockey-model-hierarchical-code">
             <pre>
@@ -386,13 +392,13 @@
           <section id="pointers-shrinkage">
             {{ elements['hockey_shrinkage_script'] }}
             {{ elements['hockey_shrinkage_div'] }}
-            <p>With Bayesian partial pooling, we can impose reasonable prior knowledge about players on the modelling procedure.</p>
+            <p>With Bayesian partial pooling, we can <span class="fragment highlight-blue">impose reasonable prior knowledge</span> about players on the modelling procedure.</p>
           </section>
           <section id="pointers-design">
             <ol>
-              <li class="fragment">Average user: won't parse raw numbers well.</li>
-              <li class="fragment">Models should incorporate reasonable prior information.</li>
-              <li class="fragment">Uncertainty expresses confidence.</li>
+              <li class="fragment">Average user needs <span class="fragment highlight-blue">visuals</span> and <span class="fragment highlight-blue">experiences</span>, not tables.</li>
+              <li class="fragment"><span class="fragment highlight-blue">Check models</span> against reasonable prior information.</li>
+              <li class="fragment">Probability distributions express <i class="fragment highlight-blue">credibility assignments</i>.</li>
             </ol>
           </section>
         </section>
@@ -400,13 +406,15 @@
           <section id="epiphanies-title-slide">
             <h1>Epiphanies in Bayes-land</h1>
           </section>
+          <section id="reflections-probabilistic-programming">
+            <img src="./assets/images/framework/nn/model.png" alt="" width=50%>
+            <p>Deep neural networks are merely another example of a <span class="fragment highlight-red">link function</span>
+              between your data and your output probability distribution parameters.</p>
+          </section>
           <section id="reflections-on-ml">
             {{ elements['hockey_combined_div'] }}
             {{ elements['hockey_combined_script'] }}
             <p>Bayesian methods can help us design more reasonably.</p>
-          </section>
-          <section id="reflections-probabilistic-programming">
-            <p>Probabilistic programming lets you mix-and-match statistics and deep learning. (Thomas Wiecki)</p>
           </section>
           <section id="reflections-fret-not-1">
             <img src="./assets/images/bayesian-framework.png" alt="" width=55%>
