@@ -73,7 +73,7 @@ def load_hockey_traces(data_dir: Path, pooled: bool):
     else:
         df = pd.read_csv(data_dir / "goalie_nopool_posterior.csv")
 
-    df = df.filter_on(df["iter"] % 10 == 0)
+    df = df[df["iter"] % 10 == 0]
     return df
 
 
