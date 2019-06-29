@@ -1,0 +1,591 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="./assets/revealjs/lib/js/head.min.js"></script>
+    <link rel="stylesheet" href="./assets/revealjs/css/reveal.css">
+    <link rel="stylesheet" href="./assets/revealjs/css/theme/white.css">
+    <!-- Next up, syntax highlighting. -->
+    <link rel="stylesheet" href="./assets/revealjs/lib/css/zenburn.css"/>
+
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-tables-0.13.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-api-0.13.0.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./assets/custom.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.pydata.org/bokeh/release/bokeh-tables-0.13.0.min.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section id="introduction">
+          <section id="title-slide">
+            <h1>Fret Not, It's Curve Fitting All The Way Down!</h1>
+            <img src="./assets/images/ericmjl.png" width="250px" align="left">
+            <p align="right">"epiphanies in Bayes-land"</p>
+            <p align="right">Eric J. Ma, Digility 2018</p>
+          </section>
+          <section id="follow-along">
+            <h1>Follow Along!</h1>
+            <p>
+              <a href="https://ericmjl.github.io/curve-fitting-talk">ericmjl.github.io/
+                <b>curve-fitting-talk</b>
+              </a>
+            </p>
+            <p>
+              <img src="./assets/images/talk.png" width="250px">
+            </p>
+          </section>
+          <section id="about">
+            <h1>About Myself</h1>
+            <table>
+              <tr>
+                <td width="33%" style="border-width: 0; vertical-align: bottom">
+                  <img src="./assets/images/novartis.gif" alt="">
+                </td>
+                <td width="33%" style="border-width: 0; vertical-align: bottom">
+                  <img src="./assets/images/mit.gif" alt="">
+                </td>
+                <td width="33%" style="border-width: 0; vertical-align: bottom">
+                  <img src="./assets/images/python.gif" alt="">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>Investigator, Scientific Data Analysis</p>
+                </td>
+                <td>
+                  <p>ScD, Biological Engineering, 2017</p>
+                </td>
+                <td>
+                  <p>Bayesian Stats, ML, Network Science</p>
+                </td>
+              </tr>
+            </table>
+          </section>
+          <section id="goals">
+            <h1>Goals</h1>
+            <ol>
+              <li class="fragment"><span class="fragment highlight-red">Demystify deep learning</span> and its relationship to statistical modelling, using lots of pictures and minimal equations.</li>
+              <li class="fragment">Show how Bayesian methods can help you <span class="fragment highlight-red">design more reasonably</span>.</li>
+              <li class="fragment"><span class="fragment highlight-red">Introduce probabilistic programming</span> as a tool that can be in your toolkit.</li>
+            </ol>
+          </section>
+          <section id="bayes-rule-neon-sign" data-background="./assets/images/bayes-rule-neon-sign.jpg">
+          </section>
+          <section id="distribution-shapes">
+            <img src="https://ericmjl.github.io/bayesian-stats-talk/images/beliefs.jpg" alt="">
+          </section>
+        </section>
+
+        <section id="estimation">
+          <section id="estimation-images">
+            <h2>Estimation</h2>
+            <img src="./assets/images/framework/estimation/data.png" width=20% class="fragment">
+            <img src="./assets/images/framework/estimation/point.png" width=20% class="fragment">
+            <img src="./assets/images/framework/estimation/distribution.png" width=20% class="fragment">
+            <img src="./assets/images/framework/estimation/hierarchical.png" width=20% class="fragment">
+          </section>
+          <section id="estimation-model-diagram">
+            <img src="./assets/images/framework/estimation/model.png" alt="" width=70%>
+          </section>
+          <section id="estimation-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                import numpy as np
+                import pymc3 as pm
+
+                data = np.random.normal(loc=6, sd=2, size=1000)
+                with pm.Model() as model:
+                    # Priors
+                    sd = pm.Exponential('sd', lam=5)
+                    mu = pm.Normal('mu', mu=0, sd=100)
+
+                    # Likelihood for data
+                    like = pm.Normal('like', mu=mu, sd=sd, observed=data)
+              </code>
+            </pre>
+          </section>
+        </section>
+
+        <section id="linreg">
+          <section id="linreg-images">
+            <h2>Linear Regression</h2>
+            <img src="./assets/images/framework/linreg/data.png" width=20% class="fragment">
+            <img src="./assets/images/framework/linreg/point.png" width=20% class="fragment">
+            <img src="./assets/images/framework/linreg/distribution.png" width=20% class="fragment">
+            <img src="./assets/images/framework/linreg/hierarchical.png" width=20% class="fragment">
+          </section>
+          <section id="linreg-matrices">
+            <img src="./assets/images/framework/linreg/linreg-matrices.png" alt="" width=70%>
+          </section>
+          <section id="linreg-model-diagram">
+            <img src="./assets/images/framework/linreg/model.png" alt="" width=80%>
+          </section>
+          <section id="linreg-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                import pymc3 as pm
+                import numpy as np
+
+                x = np.random.normal(loc=0, sd=10, size=1000)
+                m = 10; c = 6;
+                y = m * x + c + np.random.normal(0, 0.2)
+
+                with pm.Model() as model:
+                    # Priors
+                    m = pm.Normal('m', loc=0, sd=100)
+                    c = pm.Normal('c', loc=0, sd=100)
+                    sd = pm.Exponential('sd', lam=5)
+
+                    # Link function
+                    mu = m * x + c
+
+                    # Likelihood for data
+                    like = pm.Normal('like', mu=mu, sd=sd, observed=y)
+              </code>
+            </pre>
+          </section>
+        </section>
+
+        <section id="logreg">
+          <section id="logreg-images">
+            <h2>Logistic regression</h2>
+            <img src="./assets/images/framework/logreg/data.png" width=20% class="fragment">
+            <img src="./assets/images/framework/logreg/point.png" width=20% class="fragment">
+            <img src="./assets/images/framework/logreg/distribution.png" width=20% class="fragment">
+            <img src="./assets/images/framework/logreg/hierarchical.png" width=20% class="fragment">
+          </section>
+          <section id="logreg-matrices">
+            <img src="./assets/images/framework/logreg/logreg-matrices.png" alt="" width=50%>
+          </section>
+          <section id="logreg-model-diagram">
+            <img src="./assets/images/framework/logreg/model.png" alt="" width=40%>
+          </section>
+          <section id="logreg-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                import pymc3 as pm
+                import numpy as np
+
+                with pm.Model() as model:
+                    # Priors
+                    beta = pm.Normal('beta', mu=0, sd=100)
+
+                    # Link function
+                    p = 1 / (1 + np.exp(-beta * x))
+
+                    # Likelihood for data
+                    like = pm.Bernoulli('like', p=p, observed=data)
+              </code>
+            </pre>
+          </section>
+        </section>
+
+        <section id="curves">
+          <section id="curves-images">
+            <h2>Parametric Curves</h2>
+            <img src="./assets/images/framework/curves/data.png" width=20% class="fragment">
+            <img src="./assets/images/framework/curves/point.png" width=20% class="fragment">
+            <img src="./assets/images/framework/curves/distribution.png" width=20% class="fragment">
+            <img src="./assets/images/framework/curves/hierarchical.png" width=20% class="fragment">
+          </section>
+          <section id="curves-matrices">
+            <img src="./assets/images/framework/curves/curves-matrices.png" alt="" width=50%>
+          </section>
+          <section id="curves-diagram">
+            <img src="./assets/images/framework/curves/model.png" alt="">
+          </section>
+          <section id="curves-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                import pymc3 as pm
+                import numpy as np
+                import theano.tensor as tt
+
+                with pm.Model() as model:
+                    # Priors
+                    A = pm.HalfNormal('A', sd=100)
+                    b = pm.Normal('b', mu=0, sd=100)
+                    C = pm.HalfNormal('C', sd=100)
+                    sd = pm.Exponential('sd', lam=5)
+
+                    # Link function
+                    mu = A * tt.exp(-b * x) + C
+
+                    # Likelihood for data
+                    like = pm.Normal('like', mu=mu, sd=sd, observed=data)
+              </code>
+            </pre>
+          </section>
+        </section>
+
+        <section id="nn">
+          <section id="nn-images">
+            <h2>Neural Networks</h2>
+            <img src="./assets/images/framework/nn/data.png" width=20% class="fragment">
+            <img src="./assets/images/framework/nn/point.png" width=20% class="fragment">
+            <img src="./assets/images/framework/nn/distribution.png" width=20% class="fragment">
+            <img src="./assets/images/framework/nn/hierarchical.png" width=20% class="fragment">
+          </section>
+          <section id="nn-matrices">
+            <img src="./assets/images/framework/nn/nn-matrices.png" alt="" width=70%>
+          </section>
+          <section id="nn-diagram">
+            <img src="./assets/images/framework/nn/model.png" alt="" width=80%>
+          </section>
+          <section id="nn-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                def nn(x):
+                    w1 = pm.Normal('w1', mu=0, sd=1, shape=(x.shape[1], x.shape[1]))
+                    b1 = pm.Normal('b1', mu=0, sd=1, shape=(x.shape[1]))
+                    a1 = tt.tanh(tt.dot(x, w1) + b1)
+
+                    w2 = pm.Normal('w2', mu=0, sd=1, shape=(x.shape[1], 1))
+                    b2 = pm.Normal('b2', mu=0, sd=1, shape=(1,))
+                    a2 = tt.tanh(tt.dot(a1, w2) + b2)
+
+                    return a2
+
+                with pm.Model() as model:
+                    mu = nn(x)
+                    sd = pm.Exponential('sd', lam=5)
+                    like = pm.Normal('like', mu=mu, sd=sd, observed=data)
+              </code>
+            </pre>
+          </section>
+          <section id="nn-answer">
+            <p class="fragment">Deep neural networks are nothing more than matrix transformations on input data.</p>
+            <p class="fragment"><i>They are nothing more than fancy curve fitters!</i></p>
+          </section>
+          <section id="nn-more-info">
+            <p>For more illustrations and details, check out another talk I did at <a href="https://www.youtube.com/watch?v=s0S6HFdPtlA">PyData NYC 2017</a>!</p>
+            <iframe width="800" height="400" src="https://www.youtube.com/embed/s0S6HFdPtlA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </section>
+        </section>
+        <section id="design">
+          <section id="design-title-slide">
+            <h2>How can Bayesian methods can help you design more reasonably?</h2>
+            <p class="fragment">By "reasonably", we mean "in a way that doesn't violate common statistical sense".</p>
+          </section>
+          <section id="hockey-title-slide">
+            <p>How do we quantify ice hockey goaltender performance?</p>
+            <img src="./assets/images/design/jacob-markstrom.jpg" alt="">
+            <p style="font-size:15">
+              <caption>Image from
+                <a href="http://forum.canucks.com/topic/379072-nhl-goalie-rankings-5/">Canucks forums</a>.
+              </caption>
+            </p>
+          </section>
+          <section id="hockey-goalie-stats">
+            <table>
+              <tr>
+                <th>ID</th>
+                <th>Goals Against</th>
+                <th>Goals Saved</th>
+                <th>Save Percentage</th>
+              </tr>
+              <tr class="fragment">
+                <td>Jake Allen</td>
+                <td>1614</td>
+                <td>1462</td>
+                <td class="fragment">0.906</td>
+              </tr>
+              <tr class="fragment">
+                <td>Dylan Ferguson</td>
+                <td>2</td>
+                <td>1</td>
+                <td>0.500</td>
+              </tr>
+              <tr class="fragment">
+                <td>Scott Foster</td>
+                <td>7</td>
+                <td>7</td>
+                <td>1.000</td>
+              </tr>
+            </table>
+            <p>Who is the better goalie?</p>
+          </section>
+        </section>
+        <section id="hockey-naive-slides">
+          <section id="hocky-model-naive-title">
+            <h1>Simplest Model</h1>
+            <p>Let's assume that each player is independent of each other.</p>
+            <div class="fragment">
+              <p>We are interested in
+                <code>p</code>, the goalie's <b>probability of saving a goal</b>.</p>
+            </div>
+
+          </section>
+          <section id="hockey-model-naive">
+            <img src="./assets/images/design/baseball-model.png" alt="" width=30% align="right">
+            <p style="text-align: left">Each player is estimated <b>independently</b>.</p>
+            <p class="fragment" style="text-align: left"><b>binomial distribution</b> models number of successes out of a number of trials.</p>
+            <p class="fragment" style="text-align: left"><b>beta distribution</b> tells us how uncertain we are about a probability parameter.</p>
+          </section>
+          <section id="hockey-model-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                 with pm.Model() as nopool:
+                    n_players = len(df)
+                    p = pm.Beta('p', alpha=1, beta=1, shape=(n_players,))
+                    like = pm.Binomial('likelihood',
+                                       n=df['SA'],
+                                       p=p,
+                                       observed=df['SV'])
+              </code>
+            </pre>
+          </section>
+          <section id="hockey-model-naive-results">
+            
+<div class="bk-root" id="6963a980-d19d-4942-a69b-127909c63f97" data-root-id="1004"></div>
+            
+<script type="text/javascript">
+  (function() {
+    var fn = function() {
+      Bokeh.safely(function() {
+        (function(root) {
+          function embed_document(root) {
+            
+          var docs_json = '{"43c098e8-da80-489b-8534-069424c799fb":{"roots":{"references":[{"attributes":{"dimension":1,"grid_line_color":null,"ticker":{"id":"1018","type":"BasicTicker"}},"id":"1021","type":"Grid"},{"attributes":{"callback":null,"data":{"x0":[["Dylan Ferguson",-0.2],["Jake Allen",-0.2],["Scott Foster",-0.2]],"x1":[["Dylan Ferguson",0.2],["Jake Allen",0.2],["Scott Foster",0.2]],"y0":[0.005290856760469976,0.8867792177201119,0.6626145255394694],"y1":[0.005290856760469976,0.8867792177201119,0.6626145255394694]},"selected":{"id":"1094","type":"Selection"},"selection_policy":{"id":"1093","type":"UnionRenderers"}},"id":"1054","type":"ColumnDataSource"},{"attributes":{"bottom":{"field":"bottom"},"fill_alpha":{"value":0.1},"fill_color":{"value":"#30a2da"},"line_alpha":{"value":0.1},"line_color":{"value":"black"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1075","type":"VBar"},{"attributes":{},"id":"1079","type":"CategoricalTickFormatter"},{"attributes":{},"id":"1080","type":"BasicTickFormatter"},{"attributes":{},"id":"1018","type":"BasicTicker"},{"attributes":{"axis_label":"p","bounds":"auto","formatter":{"id":"1080","type":"BasicTickFormatter"},"major_label_orientation":"horizontal","ticker":{"id":"1018","type":"BasicTicker"}},"id":"1017","type":"LinearAxis"},{"attributes":{},"id":"1087","type":"UnionRenderers"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1051","type":"Segment"},{"attributes":{"source":{"id":"1054","type":"ColumnDataSource"}},"id":"1059","type":"CDSView"},{"attributes":{},"id":"1088","type":"Selection"},{"attributes":{"callback":null,"renderers":[{"id":"1040","type":"GlyphRenderer"},{"id":"1070","type":"GlyphRenderer"},{"id":"1076","type":"GlyphRenderer"}],"tags":["hv_created"],"tooltips":[["Player","@{Player}"],["p","@{p}"]]},"id":"1003","type":"HoverTool"},{"attributes":{},"id":"1089","type":"UnionRenderers"},{"attributes":{"data_source":{"id":"1060","type":"ColumnDataSource"},"glyph":{"id":"1062","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1063","type":"Segment"},"selection_glyph":null,"view":{"id":"1065","type":"CDSView"}},"id":"1064","type":"GlyphRenderer"},{"attributes":{},"id":"1090","type":"Selection"},{"attributes":{"grid_line_color":null,"ticker":{"id":"1014","type":"CategoricalTicker"}},"id":"1016","type":"Grid"},{"attributes":{"data_source":{"id":"1042","type":"ColumnDataSource"},"glyph":{"id":"1044","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1045","type":"Segment"},"selection_glyph":null,"view":{"id":"1047","type":"CDSView"}},"id":"1046","type":"GlyphRenderer"},{"attributes":{"data_source":{"id":"1072","type":"ColumnDataSource"},"glyph":{"id":"1074","type":"VBar"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1075","type":"VBar"},"selection_glyph":null,"view":{"id":"1077","type":"CDSView"}},"id":"1076","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1060","type":"ColumnDataSource"}},"id":"1065","type":"CDSView"},{"attributes":{},"id":"1009","type":"CategoricalScale"},{"attributes":{},"id":"1091","type":"UnionRenderers"},{"attributes":{},"id":"1092","type":"Selection"},{"attributes":{"source":{"id":"1048","type":"ColumnDataSource"}},"id":"1053","type":"CDSView"},{"attributes":{"data_source":{"id":"1036","type":"ColumnDataSource"},"glyph":{"id":"1038","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1039","type":"Circle"},"selection_glyph":null,"view":{"id":"1041","type":"CDSView"}},"id":"1040","type":"GlyphRenderer"},{"attributes":{"data_source":{"id":"1054","type":"ColumnDataSource"},"glyph":{"id":"1056","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1057","type":"Segment"},"selection_glyph":null,"view":{"id":"1059","type":"CDSView"}},"id":"1058","type":"GlyphRenderer"},{"attributes":{"bottom":{"field":"bottom"},"fill_color":{"value":"#30a2da"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1068","type":"VBar"},{"attributes":{"callback":null,"data":{"x0":[["Dylan Ferguson",-0.2],["Jake Allen",-0.2],["Scott Foster",-0.2]],"x1":[["Dylan Ferguson",0.2],["Jake Allen",0.2],["Scott Foster",0.2]],"y0":[0.9660026657973052,0.9245976795030879,0.9999777424685812],"y1":[0.9660026657973052,0.9245976795030879,0.9999777424685812]},"selected":{"id":"1096","type":"Selection"},"selection_policy":{"id":"1095","type":"UnionRenderers"}},"id":"1060","type":"ColumnDataSource"},{"attributes":{},"id":"1026","type":"ResetTool"},{"attributes":{"below":[{"id":"1013","type":"CategoricalAxis"}],"center":[{"id":"1016","type":"Grid"},{"id":"1021","type":"Grid"}],"left":[{"id":"1017","type":"LinearAxis"}],"margin":null,"min_border_bottom":10,"min_border_left":10,"min_border_right":10,"min_border_top":10,"plot_height":400,"plot_width":400,"renderers":[{"id":"1040","type":"GlyphRenderer"},{"id":"1046","type":"GlyphRenderer"},{"id":"1052","type":"GlyphRenderer"},{"id":"1058","type":"GlyphRenderer"},{"id":"1064","type":"GlyphRenderer"},{"id":"1070","type":"GlyphRenderer"},{"id":"1076","type":"GlyphRenderer"}],"sizing_mode":"fixed","title":{"id":"1005","type":"Title"},"toolbar":{"id":"1028","type":"Toolbar"},"x_range":{"id":"1001","type":"FactorRange"},"x_scale":{"id":"1009","type":"CategoricalScale"},"y_range":{"id":"1002","type":"Range1d"},"y_scale":{"id":"1011","type":"LinearScale"}},"id":"1004","subtype":"Figure","type":"Plot"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1057","type":"Segment"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1050","type":"Segment"},{"attributes":{"callback":null,"data":{"Player":["Dylan Ferguson","Jake Allen","Scott Foster"],"bottom":{"__ndarray__":"GH5m5aSL5D94B2c5ICLtP6I5Xeia2e4/","dtype":"float64","shape":[3]},"index":["Dylan Ferguson","Jake Allen","Scott Foster"],"p":{"__ndarray__":"lLiZAjwZ4D965TMVjv/sP+LvtUedIe0/","dtype":"float64","shape":[3]},"top":{"__ndarray__":"lLiZAjwZ4D965TMVjv/sP+LvtUedIe0/","dtype":"float64","shape":[3]}},"selected":{"id":"1098","type":"Selection"},"selection_policy":{"id":"1097","type":"UnionRenderers"}},"id":"1066","type":"ColumnDataSource"},{"attributes":{},"id":"1024","type":"WheelZoomTool"},{"attributes":{"source":{"id":"1042","type":"ColumnDataSource"}},"id":"1047","type":"CDSView"},{"attributes":{},"id":"1022","type":"SaveTool"},{"attributes":{},"id":"1093","type":"UnionRenderers"},{"attributes":{"overlay":{"id":"1101","type":"BoxAnnotation"}},"id":"1025","type":"BoxZoomTool"},{"attributes":{"callback":null,"end":0.9999777424685812,"reset_end":0.9999777424685812,"reset_start":0.005290856760469976,"start":0.005290856760469976,"tags":[[["p","p",null]]]},"id":"1002","type":"Range1d"},{"attributes":{"bottom":{"field":"bottom"},"fill_alpha":{"value":0.1},"fill_color":{"value":"#30a2da"},"line_alpha":{"value":0.1},"line_color":{"value":"black"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1069","type":"VBar"},{"attributes":{"data_source":{"id":"1066","type":"ColumnDataSource"},"glyph":{"id":"1068","type":"VBar"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1069","type":"VBar"},"selection_glyph":null,"view":{"id":"1071","type":"CDSView"}},"id":"1070","type":"GlyphRenderer"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1003","type":"HoverTool"},{"id":"1022","type":"SaveTool"},{"id":"1023","type":"PanTool"},{"id":"1024","type":"WheelZoomTool"},{"id":"1025","type":"BoxZoomTool"},{"id":"1026","type":"ResetTool"},{"id":"1027","type":"PanTool"}]},"id":"1028","type":"Toolbar"},{"attributes":{},"id":"1014","type":"CategoricalTicker"},{"attributes":{"callback":null,"data":{"x0":["Dylan Ferguson","Jake Allen","Scott Foster"],"x1":["Dylan Ferguson","Jake Allen","Scott Foster"],"y0":{"__ndarray__":"A1gubH7p7j9Ii23fTZbtP8gslFLR/+8/","dtype":"float64","shape":[3]},"y1":{"__ndarray__":"GH5m5aSL5D94B2c5ICLtP6I5Xeia2e4/","dtype":"float64","shape":[3]}},"selected":{"id":"1090","type":"Selection"},"selection_policy":{"id":"1089","type":"UnionRenderers"}},"id":"1042","type":"ColumnDataSource"},{"attributes":{"source":{"id":"1066","type":"ColumnDataSource"}},"id":"1071","type":"CDSView"},{"attributes":{"callback":null,"factors":["Dylan Ferguson","Jake Allen","Scott Foster"],"tags":[[["Player","Player",null]]]},"id":"1001","type":"FactorRange"},{"attributes":{"bottom":{"field":"bottom"},"fill_color":{"value":"#30a2da"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1074","type":"VBar"},{"attributes":{},"id":"1011","type":"LinearScale"},{"attributes":{"source":{"id":"1036","type":"ColumnDataSource"}},"id":"1041","type":"CDSView"},{"attributes":{"axis_label":"Player","bounds":"auto","formatter":{"id":"1079","type":"CategoricalTickFormatter"},"major_label_orientation":"horizontal","ticker":{"id":"1014","type":"CategoricalTicker"}},"id":"1013","type":"CategoricalAxis"},{"attributes":{"data_source":{"id":"1048","type":"ColumnDataSource"},"glyph":{"id":"1050","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1051","type":"Segment"},"selection_glyph":null,"view":{"id":"1053","type":"CDSView"}},"id":"1052","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1072","type":"ColumnDataSource"}},"id":"1077","type":"CDSView"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1063","type":"Segment"},{"attributes":{},"id":"1023","type":"PanTool"},{"attributes":{"fill_color":{"value":"black"},"x":{"field":"index"},"y":{"field":"p"}},"id":"1038","type":"Circle"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1062","type":"Segment"},{"attributes":{"text":"","text_color":{"value":"black"},"text_font_size":{"value":"12pt"}},"id":"1005","type":"Title"},{"attributes":{"callback":null,"data":{"Player":["Dylan Ferguson","Jake Allen","Scott Foster"],"bottom":{"__ndarray__":"lLiZAjwZ4D965TMVjv/sP+LvtUedIe0/","dtype":"float64","shape":[3]},"index":["Dylan Ferguson","Jake Allen","Scott Foster"],"p":{"__ndarray__":"lLiZAjwZ4D965TMVjv/sP+LvtUedIe0/","dtype":"float64","shape":[3]},"top":{"__ndarray__":"gBEMRC9F1j+Yr2J1rNTsP2ju3n7R/eo/","dtype":"float64","shape":[3]}},"selected":{"id":"1100","type":"Selection"},"selection_policy":{"id":"1099","type":"UnionRenderers"}},"id":"1072","type":"ColumnDataSource"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1101","type":"BoxAnnotation"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1044","type":"Segment"},{"attributes":{},"id":"1100","type":"Selection"},{"attributes":{},"id":"1099","type":"UnionRenderers"},{"attributes":{},"id":"1098","type":"Selection"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1045","type":"Segment"},{"attributes":{},"id":"1097","type":"UnionRenderers"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"black"},"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x":{"field":"index"},"y":{"field":"p"}},"id":"1039","type":"Circle"},{"attributes":{"callback":null,"data":{"x0":["Dylan Ferguson","Jake Allen","Scott Foster"],"x1":["Dylan Ferguson","Jake Allen","Scott Foster"],"y0":{"__ndarray__":"QYsQjN2rdT/IK1zPfmDsP5F9oWAjNOU/","dtype":"float64","shape":[3]},"y1":{"__ndarray__":"gBEMRC9F1j+Yr2J1rNTsP2ju3n7R/eo/","dtype":"float64","shape":[3]}},"selected":{"id":"1092","type":"Selection"},"selection_policy":{"id":"1091","type":"UnionRenderers"}},"id":"1048","type":"ColumnDataSource"},{"attributes":{},"id":"1094","type":"Selection"},{"attributes":{},"id":"1027","type":"PanTool"},{"attributes":{},"id":"1095","type":"UnionRenderers"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1056","type":"Segment"},{"attributes":{},"id":"1096","type":"Selection"},{"attributes":{"callback":null,"data":{"Player":["Jake Allen","Jake Allen","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster"],"index":["Jake Allen","Jake Allen","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster"],"p":{"__ndarray__":"z2sXCGGe7T98huHYm1zsPzMAnSZRCeE/HJtLauWz5D8ElqQuigDhPzCyUvdRluQ/xBGQq+kn5T8IN3Zhqn3hPzrhhnQ7O+M/pH7RkkEW5T9mM5wVcx7lP2xuLybqU+Q/us0s81Q43T8gUFdlKf/kP7/QXJm1q+Q/zA2gj+Ai3z+Z1XtdfhTSPyT2NfCD0OQ/4VhvSNgY5D+kbRMPpsDkP/5JInv5X+Q/EYSbZRBL4T+C0v7g4czjP2Yb9ear/uQ/LAGWT+f64T9pZD+NUV3hPw2NwO8R/OQ/+2qYUq2O5D8=","dtype":"float64","shape":[28]}},"selected":{"id":"1088","type":"Selection"},"selection_policy":{"id":"1087","type":"UnionRenderers"}},"id":"1036","type":"ColumnDataSource"}],"root_ids":["1004"]},"title":"Bokeh Application","version":"1.2.0"}}';
+          var render_items = [{"docid":"43c098e8-da80-489b-8534-069424c799fb","roots":{"1004":"6963a980-d19d-4942-a69b-127909c63f97"}}];
+          root.Bokeh.embed.embed_items(docs_json, render_items);
+        
+          }
+          if (root.Bokeh !== undefined) {
+            embed_document(root);
+          } else {
+            var attempts = 0;
+            var timer = setInterval(function(root) {
+              if (root.Bokeh !== undefined) {
+                embed_document(root);
+                clearInterval(timer);
+              }
+              attempts++;
+              if (attempts > 100) {
+                console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                clearInterval(timer);
+              }
+            }, 10, root)
+          }
+        })(window);
+      });
+    };
+    if (document.readyState != "loading") fn();
+    else document.addEventListener("DOMContentLoaded", fn);
+  })();
+</script>
+            <p class="fragment">Is Dylan Ferguson really that bad?</p>
+          </section>
+        </section>
+        <section id="hockey-hierarchical-slides">
+          <section id="hockey-model-try-again">
+            <h1>Let's try again</h1>
+            <p>This time, we should try a model that encodes a more reasonable intuition.</p>
+          </section>
+          <section id="hockey-model-hierarchical">
+            <img src="./assets/images/design/baseball-hierarchical-model.png" alt="" width="45%" align="right">
+            <p class="fragment" style="text-align: left"><b>Players follow a population distribution.</b></p>
+            <p class="fragment" style="text-align: left"><b>beta distribution</b>: <i>α</i> is "number of successes", while <i>β</i> is "number of failures.</p>
+            <p class="fragment" style="text-align: left"><b>hyperpriors</b>: <i>φ</i> is a "population" success probability, while <i>κ</i>
+              models total number of data points.</p>
+          </section>
+          <section id="hockey-model-hierarchical-code">
+            <pre>
+              <code data-trim data-noescape class="py">
+                with pm.Model() as pool:
+                    n_players = len(df)
+
+                    phi = pm.Uniform('phi', lower=0.0, upper=1.0)
+                    kappa_log = pm.Exponential('kappa_log', lam=1.5)
+                    kappa = pm.Deterministic('kappa', tt.exp(kappa_log))
+
+                    p = pm.Beta('p', alpha=phi*kappa,
+                                beta=(1.0-phi)*kappa,
+                                shape=(n_players,))
+
+                    like = pm.Binomial('likelihood',
+                                       n=df['SA'],
+                                       p=p,
+                                       observed=df['SV'])
+              </code>
+            </pre>
+
+          </section>
+          <section id="hockey-model-hierarchical-results">
+            
+<div class="bk-root" id="144fd404-f954-449d-98d4-93f30a0f3729" data-root-id="1185"></div>
+            
+<script type="text/javascript">
+  (function() {
+    var fn = function() {
+      Bokeh.safely(function() {
+        (function(root) {
+          function embed_document(root) {
+            
+          var docs_json = '{"32d5c87b-29c7-4ecc-aab1-ecb287853e51":{"roots":{"references":[{"attributes":{"callback":null,"data":{"Player":["Dylan Ferguson","Jake Allen","Scott Foster"],"bottom":{"__ndarray__":"KPDa/HxM7T92fTqdTC3tP3zxVD23Vu0/","dtype":"float64","shape":[3]},"index":["Dylan Ferguson","Jake Allen","Scott Foster"],"p":{"__ndarray__":"lAYdxDwn7T8HNSvGLBDtP+85f2BxJe0/","dtype":"float64","shape":[3]},"top":{"__ndarray__":"lAYdxDwn7T8HNSvGLBDtP+85f2BxJe0/","dtype":"float64","shape":[3]}},"selected":{"id":"1279","type":"Selection"},"selection_policy":{"id":"1278","type":"UnionRenderers"}},"id":"1247","type":"ColumnDataSource"},{"attributes":{},"id":"1260","type":"CategoricalTickFormatter"},{"attributes":{},"id":"1274","type":"UnionRenderers"},{"attributes":{"callback":null,"data":{"x0":[["Dylan Ferguson",-0.2],["Jake Allen",-0.2],["Scott Foster",-0.2]],"x1":[["Dylan Ferguson",0.2],["Jake Allen",0.2],["Scott Foster",0.2]],"y0":[0.88874783431851,0.8931508697539817,0.8883135704332845],"y1":[0.88874783431851,0.8931508697539817,0.8883135704332845]},"selected":{"id":"1275","type":"Selection"},"selection_policy":{"id":"1274","type":"UnionRenderers"}},"id":"1235","type":"ColumnDataSource"},{"attributes":{"callback":null,"data":{"x0":["Dylan Ferguson","Jake Allen","Scott Foster"],"x1":["Dylan Ferguson","Jake Allen","Scott Foster"],"y0":{"__ndarray__":"NKABdn/P7T/t010a3YjtP4G2xyKb1u0/","dtype":"float64","shape":[3]},"y1":{"__ndarray__":"KPDa/HxM7T92fTqdTC3tP3zxVD23Vu0/","dtype":"float64","shape":[3]}},"selected":{"id":"1271","type":"Selection"},"selection_policy":{"id":"1270","type":"UnionRenderers"}},"id":"1223","type":"ColumnDataSource"},{"attributes":{},"id":"1275","type":"Selection"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1226","type":"Segment"},{"attributes":{},"id":"1276","type":"UnionRenderers"},{"attributes":{"callback":null,"data":{"x0":["Dylan Ferguson","Jake Allen","Scott Foster"],"x1":["Dylan Ferguson","Jake Allen","Scott Foster"],"y0":{"__ndarray__":"Ej5ZTJ9w7D8FmP8hsZTsP45Ts5QQbew/","dtype":"float64","shape":[3]},"y1":{"__ndarray__":"7KhAtor07D987iKfQfDsPx1/R2BB+ew/","dtype":"float64","shape":[3]}},"selected":{"id":"1273","type":"Selection"},"selection_policy":{"id":"1272","type":"UnionRenderers"}},"id":"1229","type":"ColumnDataSource"},{"attributes":{},"id":"1277","type":"Selection"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1225","type":"Segment"},{"attributes":{},"id":"1278","type":"UnionRenderers"},{"attributes":{"axis_label":"Player","bounds":"auto","formatter":{"id":"1260","type":"CategoricalTickFormatter"},"major_label_orientation":"horizontal","ticker":{"id":"1195","type":"CategoricalTicker"}},"id":"1194","type":"CategoricalAxis"},{"attributes":{"callback":null,"data":{"Player":["Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Jake Allen","Jake Allen","Jake Allen","Jake Allen","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster"],"index":["Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Jake Allen","Jake Allen","Jake Allen","Jake Allen","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster"],"p":{"__ndarray__":"pUV5cqBU7D8jVaTQ1GbsP5aMtzwXPuw/j9X3ZnZt7D9S2F6eT1rsPysd0uwKCew/TNADU0OT7D91QRaOkJTsP5MBUhhKk+w/+KpHGi2W7T/m0KBAAFzsP6svukS9Quw/SqGIAClC7D++vayMqB7sPyHqac+baew/","dtype":"float64","shape":[15]}},"selected":{"id":"1269","type":"Selection"},"selection_policy":{"id":"1268","type":"UnionRenderers"}},"id":"1217","type":"ColumnDataSource"},{"attributes":{"bottom":{"field":"bottom"},"fill_color":{"value":"#30a2da"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1249","type":"VBar"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1184","type":"HoverTool"},{"id":"1203","type":"SaveTool"},{"id":"1204","type":"PanTool"},{"id":"1205","type":"WheelZoomTool"},{"id":"1206","type":"BoxZoomTool"},{"id":"1207","type":"ResetTool"},{"id":"1208","type":"PanTool"}]},"id":"1209","type":"Toolbar"},{"attributes":{},"id":"1203","type":"SaveTool"},{"attributes":{},"id":"1279","type":"Selection"},{"attributes":{"text":"","text_color":{"value":"black"},"text_font_size":{"value":"12pt"}},"id":"1186","type":"Title"},{"attributes":{"data_source":{"id":"1235","type":"ColumnDataSource"},"glyph":{"id":"1237","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1238","type":"Segment"},"selection_glyph":null,"view":{"id":"1240","type":"CDSView"}},"id":"1239","type":"GlyphRenderer"},{"attributes":{"data_source":{"id":"1223","type":"ColumnDataSource"},"glyph":{"id":"1225","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1226","type":"Segment"},"selection_glyph":null,"view":{"id":"1228","type":"CDSView"}},"id":"1227","type":"GlyphRenderer"},{"attributes":{"callback":null,"renderers":[{"id":"1221","type":"GlyphRenderer"},{"id":"1251","type":"GlyphRenderer"},{"id":"1257","type":"GlyphRenderer"}],"tags":["hv_created"],"tooltips":[["Player","@{Player}"],["p","@{p}"]]},"id":"1184","type":"HoverTool"},{"attributes":{},"id":"1268","type":"UnionRenderers"},{"attributes":{"bottom":{"field":"bottom"},"fill_alpha":{"value":0.1},"fill_color":{"value":"#30a2da"},"line_alpha":{"value":0.1},"line_color":{"value":"black"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1250","type":"VBar"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1238","type":"Segment"},{"attributes":{"data_source":{"id":"1247","type":"ColumnDataSource"},"glyph":{"id":"1249","type":"VBar"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1250","type":"VBar"},"selection_glyph":null,"view":{"id":"1252","type":"CDSView"}},"id":"1251","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1247","type":"ColumnDataSource"}},"id":"1252","type":"CDSView"},{"attributes":{"below":[{"id":"1194","type":"CategoricalAxis"}],"center":[{"id":"1197","type":"Grid"},{"id":"1202","type":"Grid"}],"left":[{"id":"1198","type":"LinearAxis"}],"margin":null,"min_border_bottom":10,"min_border_left":10,"min_border_right":10,"min_border_top":10,"plot_height":400,"plot_width":400,"renderers":[{"id":"1221","type":"GlyphRenderer"},{"id":"1227","type":"GlyphRenderer"},{"id":"1233","type":"GlyphRenderer"},{"id":"1239","type":"GlyphRenderer"},{"id":"1245","type":"GlyphRenderer"},{"id":"1251","type":"GlyphRenderer"},{"id":"1257","type":"GlyphRenderer"}],"sizing_mode":"fixed","title":{"id":"1186","type":"Title"},"toolbar":{"id":"1209","type":"Toolbar"},"x_range":{"id":"1182","type":"FactorRange"},"x_scale":{"id":"1190","type":"CategoricalScale"},"y_range":{"id":"1183","type":"Range1d"},"y_scale":{"id":"1192","type":"LinearScale"}},"id":"1185","subtype":"Figure","type":"Plot"},{"attributes":{"axis_label":"p","bounds":"auto","formatter":{"id":"1261","type":"BasicTickFormatter"},"major_label_orientation":"horizontal","ticker":{"id":"1199","type":"BasicTicker"}},"id":"1198","type":"LinearAxis"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1237","type":"Segment"},{"attributes":{},"id":"1204","type":"PanTool"},{"attributes":{"source":{"id":"1253","type":"ColumnDataSource"}},"id":"1258","type":"CDSView"},{"attributes":{"source":{"id":"1235","type":"ColumnDataSource"}},"id":"1240","type":"CDSView"},{"attributes":{"callback":null,"factors":["Dylan Ferguson","Jake Allen","Scott Foster"],"tags":[[["Player","Player",null]]]},"id":"1182","type":"FactorRange"},{"attributes":{"data_source":{"id":"1253","type":"ColumnDataSource"},"glyph":{"id":"1255","type":"VBar"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1256","type":"VBar"},"selection_glyph":null,"view":{"id":"1258","type":"CDSView"}},"id":"1257","type":"GlyphRenderer"},{"attributes":{"fill_color":{"value":"black"},"x":{"field":"index"},"y":{"field":"p"}},"id":"1219","type":"Circle"},{"attributes":{"callback":null,"end":0.9324470214175592,"reset_end":0.9324470214175592,"reset_start":0.8761038422971174,"start":0.8761038422971174,"tags":[[["p","p",null]]]},"id":"1183","type":"Range1d"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"black"},"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x":{"field":"index"},"y":{"field":"p"}},"id":"1220","type":"Circle"},{"attributes":{"data_source":{"id":"1217","type":"ColumnDataSource"},"glyph":{"id":"1219","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1220","type":"Circle"},"selection_glyph":null,"view":{"id":"1222","type":"CDSView"}},"id":"1221","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1223","type":"ColumnDataSource"}},"id":"1228","type":"CDSView"},{"attributes":{"source":{"id":"1217","type":"ColumnDataSource"}},"id":"1222","type":"CDSView"},{"attributes":{"dimension":1,"grid_line_color":null,"ticker":{"id":"1199","type":"BasicTicker"}},"id":"1202","type":"Grid"},{"attributes":{"bottom":{"field":"bottom"},"fill_alpha":{"value":0.1},"fill_color":{"value":"#30a2da"},"line_alpha":{"value":0.1},"line_color":{"value":"black"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1256","type":"VBar"},{"attributes":{},"id":"1261","type":"BasicTickFormatter"},{"attributes":{},"id":"1280","type":"UnionRenderers"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1232","type":"Segment"},{"attributes":{"data_source":{"id":"1229","type":"ColumnDataSource"},"glyph":{"id":"1231","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1232","type":"Segment"},"selection_glyph":null,"view":{"id":"1234","type":"CDSView"}},"id":"1233","type":"GlyphRenderer"},{"attributes":{},"id":"1192","type":"LinearScale"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1231","type":"Segment"},{"attributes":{"callback":null,"data":{"x0":[["Dylan Ferguson",-0.2],["Jake Allen",-0.2],["Scott Foster",-0.2]],"x1":[["Dylan Ferguson",0.2],["Jake Allen",0.2],["Scott Foster",0.2]],"y0":[0.9315793328105486,0.9229569926234241,0.9324470214175592],"y1":[0.9315793328105486,0.9229569926234241,0.9324470214175592]},"selected":{"id":"1277","type":"Selection"},"selection_policy":{"id":"1276","type":"UnionRenderers"}},"id":"1241","type":"ColumnDataSource"},{"attributes":{},"id":"1190","type":"CategoricalScale"},{"attributes":{},"id":"1208","type":"PanTool"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1282","type":"BoxAnnotation"},{"attributes":{"bottom":{"field":"bottom"},"fill_color":{"value":"#30a2da"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1255","type":"VBar"},{"attributes":{"grid_line_color":null,"ticker":{"id":"1195","type":"CategoricalTicker"}},"id":"1197","type":"Grid"},{"attributes":{},"id":"1195","type":"CategoricalTicker"},{"attributes":{"callback":null,"data":{"Player":["Dylan Ferguson","Jake Allen","Scott Foster"],"bottom":{"__ndarray__":"lAYdxDwn7T8HNSvGLBDtP+85f2BxJe0/","dtype":"float64","shape":[3]},"index":["Dylan Ferguson","Jake Allen","Scott Foster"],"p":{"__ndarray__":"lAYdxDwn7T8HNSvGLBDtP+85f2BxJe0/","dtype":"float64","shape":[3]},"top":{"__ndarray__":"7KhAtor07D987iKfQfDsPx1/R2BB+ew/","dtype":"float64","shape":[3]}},"selected":{"id":"1281","type":"Selection"},"selection_policy":{"id":"1280","type":"UnionRenderers"}},"id":"1253","type":"ColumnDataSource"},{"attributes":{},"id":"1199","type":"BasicTicker"},{"attributes":{},"id":"1205","type":"WheelZoomTool"},{"attributes":{"source":{"id":"1229","type":"ColumnDataSource"}},"id":"1234","type":"CDSView"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1243","type":"Segment"},{"attributes":{"overlay":{"id":"1282","type":"BoxAnnotation"}},"id":"1206","type":"BoxZoomTool"},{"attributes":{},"id":"1269","type":"Selection"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1244","type":"Segment"},{"attributes":{},"id":"1270","type":"UnionRenderers"},{"attributes":{},"id":"1207","type":"ResetTool"},{"attributes":{},"id":"1281","type":"Selection"},{"attributes":{"data_source":{"id":"1241","type":"ColumnDataSource"},"glyph":{"id":"1243","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1244","type":"Segment"},"selection_glyph":null,"view":{"id":"1246","type":"CDSView"}},"id":"1245","type":"GlyphRenderer"},{"attributes":{},"id":"1271","type":"Selection"},{"attributes":{"source":{"id":"1241","type":"ColumnDataSource"}},"id":"1246","type":"CDSView"},{"attributes":{},"id":"1272","type":"UnionRenderers"},{"attributes":{},"id":"1273","type":"Selection"}],"root_ids":["1185"]},"title":"Bokeh Application","version":"1.2.0"}}';
+          var render_items = [{"docid":"32d5c87b-29c7-4ecc-aab1-ecb287853e51","roots":{"1185":"144fd404-f954-449d-98d4-93f30a0f3729"}}];
+          root.Bokeh.embed.embed_items(docs_json, render_items);
+        
+          }
+          if (root.Bokeh !== undefined) {
+            embed_document(root);
+          } else {
+            var attempts = 0;
+            var timer = setInterval(function(root) {
+              if (root.Bokeh !== undefined) {
+                embed_document(root);
+                clearInterval(timer);
+              }
+              attempts++;
+              if (attempts > 100) {
+                console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                clearInterval(timer);
+              }
+            }, 10, root)
+          }
+        })(window);
+      });
+    };
+    if (document.readyState != "loading") fn();
+    else document.addEventListener("DOMContentLoaded", fn);
+  })();
+</script>
+            <p class="fragment">We believe that players without much data should be considered average, but with high uncertainty.</p>
+          </section>
+        </section>
+        <section id="pointers">
+          <section id="pointers-title">
+            <h1>Some Pointers</h1>
+          </section>
+          <section id="pointers-shrinkage">
+            
+<script type="text/javascript">
+  (function() {
+    var fn = function() {
+      Bokeh.safely(function() {
+        (function(root) {
+          function embed_document(root) {
+            
+          var docs_json = '{"9c326ec8-b027-47a7-93a3-07a4d2be2741":{"roots":{"references":[{"attributes":{"grid_line_color":null,"ticker":{"id":"2062","type":"CategoricalTicker"}},"id":"2064","type":"Grid"},{"attributes":{"axis_label":"p","bounds":"auto","formatter":{"id":"2091","type":"BasicTickFormatter"},"major_label_orientation":"horizontal","ticker":{"id":"2066","type":"BasicTicker"}},"id":"2065","type":"LinearAxis"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"field":"color"},"line_width":{"field":"line_width"},"xs":{"field":"Pooling"},"ys":{"field":"p"}},"id":"2085","type":"MultiLine"},{"attributes":{"callback":null,"data":{"Player":["Aaron Dell","Adam Wilcox","Adin Hill","Al Montoya","Alex Lyon","Alex Stalock","Alexandar Georgiev","Anders Nilsson","Andrei Vasilevskiy","Andrew Hammond","Anton Forsberg","Anton Khudobin","Antti Niemi","Antti Raanta","Ben Bishop","Braden Holtby","Brandon Halverson","Brian Elliott","Calvin Pickard","Cam Talbot","Cam Ward","Carey Price","Carter Hutton","Casey DeSmith","Chad Johnson","Charlie Lindgren","Christopher Gibson","Collin Delia","Connor Hellebuyck","Corey Crawford","Cory Schneider","Craig Anderson","Curtis McElhinney","Daniel Taylor","Darcy Kuemper","David Rittich","Devan Dubnyk","Dylan Ferguson","Eddie Lack","Eric Comrie","Frederik Andersen","Harri Sateri","Henrik Lundqvist","Jack Campbell","Jacob Markstrom","Jake Allen","James Reimer","Jared Coreau","Jaroslav Halak","Jean-Francois Berube","Jeff Glass","Jimmy Howard","John Gibson","Jon Gillies","Jonathan Bernier","Jonathan Quick","Joonas Korpisalo","Juuse Saros","Kari Lehtonen","Keith Kinkaid","Ken Appleby","Laurent Brossoit","Linus Ullmark","Louis Domingue","Malcolm Subban","Marc-Andre Fleury","Marek Langhamer","Martin Jones","Matt Murray","Maxime Lagace","Michael Hutchinson","Michal Neuvirth","Mike Condon","Mike McKenna","Mike Smith","Ondrej Pavelec","Oscar Dansk","Pekka Rinne","Peter Budaj","Petr Mrazek","Philipp Grubauer","Reto Berra","Roberto Luongo","Robin Lehner","Ryan Miller","Scott Darling","Scott Foster","Scott Wedgewood","Semyon Varlamov","Sergei Bobrovsky","Steve Mason","Thatcher Demko","Thomas Greiss","Tristan Jarry","Tuukka Rask"],"Pooling":[["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"],["No Pooling","Partial Pooling","Full Pooling"]],"color":["#30a2da","#fc4f30","#e5ae38","#6d904f","#8b8b8b","#17becf","#9467bd","#d62728","#1f77b4","#e377c2","#8c564b","#bcbd22","#30a2da","#fc4f30","#e5ae38","#6d904f","#8b8b8b","#17becf","#9467bd","#d62728","#1f77b4","#e377c2","#8c564b","#bcbd22","#30a2da","#fc4f30","#e5ae38","#6d904f","#8b8b8b","#17becf","#9467bd","#d62728","#1f77b4","#e377c2","#8c564b","#bcbd22","#30a2da","#fc4f30","#e5ae38","#6d904f","#8b8b8b","#17becf","#9467bd","#d62728","#1f77b4","#e377c2","#8c564b","#bcbd22","#30a2da","#fc4f30","#e5ae38","#6d904f","#8b8b8b","#17becf","#9467bd","#d62728","#1f77b4","#e377c2","#8c564b","#bcbd22","#30a2da","#fc4f30","#e5ae38","#6d904f","#8b8b8b","#17becf","#9467bd","#d62728","#1f77b4","#e377c2","#8c564b","#bcbd22","#30a2da","#fc4f30","#e5ae38","#6d904f","#8b8b8b","#17becf","#9467bd","#d62728","#1f77b4","#e377c2","#8c564b","#bcbd22","#30a2da","#fc4f30","#e5ae38","#6d904f","#8b8b8b","#17becf","#9467bd","#d62728","#1f77b4","#e377c2","#8c564b"],"line_width":[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],"muted_alpha":[0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2],"p":[{"__ndarray__":"nGUMkhgt7T9yN4C2LC/tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"QF2eDUwK7j8d2LeNFSbtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"6pVlAV9a7D+giweHLhftP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"pP8Pf+qJ7D8bdyVTj/LsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"gXO6Kv/h7D/WHMwEqRztP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"Utqvd8cZ7T9/ANbYryDtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"/Uqt/FNI7T8AtoMBgDTtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"5ETPSpDN7D+3NnsKaQftP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"egh8PSlp7T8oyI25HlTtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"YGK28tEq7T9SX2KpnTDtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"YPaqUMcH7T9l7N3MWRrtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"IMFANJM37T8KUcenKCvtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"rfrETFol7T9MIauVlyjtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"0YwLOwS+7T/GjrmqcHXtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"c0Uc7EZU7T9g8flsfTvtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"EzxhaXQC7T/SszPOBxHtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"IHMxms4c6D+hKdGVMSbtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"LHRNBPAR7T+DkUmLcxntP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"rHvsbnyC6j+dVqoqOiHtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"gXF02PMD7T+u+dZOoxbtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"CCJ04fb37D/PwqGYORPtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"TXQY9eDK7D9BODS+rvnsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"7ymk6qO+7T8SkQZRXWbtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"74Z9Rk5u7T8JWrA1nDjtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"Wj4HHw137D+DIe7XZOTsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"Jojx7hgD7T/axIpZxB/tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"5gQ3qqr27D9sH5BcMR7tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"NgMKx9X46z+/vt9yVBvtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"fd2eghOO7T9A0BU0TGftP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"NL7Sdfir7T/xVIIU+WLtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"yQfYdlr+7D/h+cI//RbtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"sY2brIe47D8MI4K8S+zsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"XFiOj1fZ7T+NUBVW4V7tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"CMKlb4ms6z+0lHmjMCftP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"78A4zi1l7T8KB9lI2EztP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"ga3ymjrj7D/qgpOLuRTtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"REa+GRtb7T/RYaUxeEbtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"ANEIz2cV4D+dhWAmcR/tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"KeHD6G6/6z8BCEcX1dzsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"mxVY/pCu6z8JRxz2aw3tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"E69uWT5d7T+sAWtKSUntP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"gTwOp7oT7T966AEf0CXtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"7ops/A0+7T8/cFIKYTTtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"9u38++5V7T+gD1ieTjXtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"24hJDMMn7T90h7e0YintP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"KhgPfOb67D9xcxtmKw/tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"P/WX9Cot7T8FVxKqGi3tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"qSTRBj6l6z82QyLkfvHsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"NygQN3AJ7T/07hN0JRTtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"Ja4LTFuT7D/F+Z4dQwXtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"5vteza667D9diWPFFwztP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"91e2iSUY7T+EJ5qAkyDtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"Cl9/AmCZ7T8E8dn9Q2vtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"PWorxVaY7D9One49RRTtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"s6/wfA4p7T8qMYLxvi7tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"9yV1s9l07T/Glpq6FFXtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"rbJR3U6l7D9IT7fLQAbtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"n4lCP3ON7T9htWrPlEztP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"KXrN3Isr7T9u5KvuCSztP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"4HAzwA4u7T8S94ZO4yntP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"32AnLw7C7T8sUnNMIS3tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"VCsRJ+Qr7D9qF1VxP/LsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"9PznDqGw7T+KJ9Z2AzftP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"HMGMMqCY7D/bXec1WufsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"/VZIKdYZ7T+aps6l3yTtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"5mAgGu2n7T9SvDEhkGvtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"G0YLF0dt7T/B+ucbgCztP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"YGaBzy5A7T8R/HwPiDntP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"2GaNPQP67D8mQQLh7xftP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"7J47yX2/6z94en/oAdDsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"yGDwToug7D/dyFWX0SntP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"0hc32iM67T/8SNLHjDPtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"Bv0p2+LW7D/fQK6xYQntP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"jFkXLkg47D8J1+dEbB3tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"Uee9h2pM7T9TAJuvfD3tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"egnjnzYQ7T94rndNhx7tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"L8IxJwQJ7j+kYt9KozftP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"BkUuAsmq7T+pmup1v3DtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"psXSRzHu6z+O7LxYi/fsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"epjbtwfY7D+kvFun7vrsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"Ba3J9WOB7T8WHeCZhE7tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"LhgfGBZZ7T+KH9S7FzDtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"THuY3fO57T8K7gw2gmjtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"yqRBbPYP7T9D8oDO5BXtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"CQds6m2l7T9JUgnDbVjtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"ajqU16xk7D+Yjp5WxczsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"zmd/XMY+7D88MJZlCyTtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"KK+YGu+L7D9pvifxyPvsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"rY7pVs1r7T/7Fe5/C03tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"21OhHMF07T+NHIhyzFftP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"uEkkPCPl7D945+j/LR7tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"CvMNrEzn6j8Bh23mzR3tP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"31drWoeC7D9N/hsAWebsP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"vQoyzgoM7T+tiaoN1iPtP4Sv2EY1+uw/","dtype":"float64","shape":[3]},{"__ndarray__":"+Mkr13Fa7T+INSdfeULtP4Sv2EY1+uw/","dtype":"float64","shape":[3]}]},"selected":{"id":"2082","type":"Selection"},"selection_policy":{"id":"2098","type":"UnionRenderers"}},"id":"2081","type":"ColumnDataSource"},{"attributes":{"dimension":1,"grid_line_color":null,"ticker":{"id":"2066","type":"BasicTicker"}},"id":"2069","type":"Grid"},{"attributes":{"source":{"id":"2081","type":"ColumnDataSource"}},"id":"2088","type":"CDSView"},{"attributes":{},"id":"2074","type":"ResetTool"},{"attributes":{"below":[{"id":"2061","type":"CategoricalAxis"}],"center":[{"id":"2064","type":"Grid"},{"id":"2069","type":"Grid"}],"left":[{"id":"2065","type":"LinearAxis"}],"margin":null,"min_border_bottom":10,"min_border_left":10,"min_border_right":10,"min_border_top":10,"plot_height":300,"renderers":[{"id":"2087","type":"GlyphRenderer"}],"sizing_mode":"fixed","title":{"id":"2053","type":"Title"},"toolbar":{"id":"2075","type":"Toolbar"},"x_range":{"id":"2050","type":"FactorRange"},"x_scale":{"id":"2057","type":"CategoricalScale"},"y_range":{"id":"2051","type":"Range1d"},"y_scale":{"id":"2059","type":"LinearScale"}},"id":"2052","subtype":"Figure","type":"Plot"},{"attributes":{"axis_label":"Pooling","bounds":"auto","formatter":{"id":"2090","type":"CategoricalTickFormatter"},"major_label_orientation":"horizontal","ticker":{"id":"2062","type":"CategoricalTicker"}},"id":"2061","type":"CategoricalAxis"},{"attributes":{"data_source":{"id":"2081","type":"ColumnDataSource"},"glyph":{"id":"2084","type":"MultiLine"},"hover_glyph":null,"muted_glyph":{"id":"2086","type":"MultiLine"},"nonselection_glyph":{"id":"2085","type":"MultiLine"},"selection_glyph":null,"view":{"id":"2088","type":"CDSView"}},"id":"2087","type":"GlyphRenderer"},{"attributes":{},"id":"2072","type":"WheelZoomTool"},{"attributes":{},"id":"2062","type":"CategoricalTicker"},{"attributes":{},"id":"2066","type":"BasicTicker"},{"attributes":{},"id":"2071","type":"PanTool"},{"attributes":{"callback":null,"end":0.938756968115662,"reset_end":0.938756968115662,"reset_start":0.5026129764214886,"start":0.5026129764214886,"tags":[[["p","p",null]]]},"id":"2051","type":"Range1d"},{"attributes":{"text":"","text_color":{"value":"black"},"text_font_size":{"value":"12pt"}},"id":"2053","type":"Title"},{"attributes":{},"id":"2090","type":"CategoricalTickFormatter"},{"attributes":{"line_alpha":{"field":"muted_alpha"},"line_color":{"field":"color"},"line_width":{"field":"line_width"},"xs":{"field":"Pooling"},"ys":{"field":"p"}},"id":"2086","type":"MultiLine"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"2070","type":"SaveTool"},{"id":"2071","type":"PanTool"},{"id":"2072","type":"WheelZoomTool"},{"id":"2073","type":"BoxZoomTool"},{"id":"2074","type":"ResetTool"}]},"id":"2075","type":"Toolbar"},{"attributes":{},"id":"2059","type":"LinearScale"},{"attributes":{},"id":"2091","type":"BasicTickFormatter"},{"attributes":{},"id":"2070","type":"SaveTool"},{"attributes":{},"id":"2098","type":"UnionRenderers"},{"attributes":{},"id":"2082","type":"Selection"},{"attributes":{"overlay":{"id":"2100","type":"BoxAnnotation"}},"id":"2073","type":"BoxZoomTool"},{"attributes":{"line_color":{"field":"color"},"line_width":{"field":"line_width"},"xs":{"field":"Pooling"},"ys":{"field":"p"}},"id":"2084","type":"MultiLine"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"2100","type":"BoxAnnotation"},{"attributes":{"callback":null,"factors":["No Pooling","Partial Pooling","Full Pooling"],"tags":[[["Pooling","Pooling",null]]]},"id":"2050","type":"FactorRange"},{"attributes":{},"id":"2057","type":"CategoricalScale"}],"root_ids":["2052"]},"title":"Bokeh Application","version":"1.2.0"}}';
+          var render_items = [{"docid":"9c326ec8-b027-47a7-93a3-07a4d2be2741","roots":{"2052":"7966abfa-64ef-4590-8eab-c16055474014"}}];
+          root.Bokeh.embed.embed_items(docs_json, render_items);
+        
+          }
+          if (root.Bokeh !== undefined) {
+            embed_document(root);
+          } else {
+            var attempts = 0;
+            var timer = setInterval(function(root) {
+              if (root.Bokeh !== undefined) {
+                embed_document(root);
+                clearInterval(timer);
+              }
+              attempts++;
+              if (attempts > 100) {
+                console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                clearInterval(timer);
+              }
+            }, 10, root)
+          }
+        })(window);
+      });
+    };
+    if (document.readyState != "loading") fn();
+    else document.addEventListener("DOMContentLoaded", fn);
+  })();
+</script>
+            
+<div class="bk-root" id="7966abfa-64ef-4590-8eab-c16055474014" data-root-id="2052"></div>
+            <p>With Bayesian partial pooling, we can <span class="fragment highlight-blue">impose reasonable prior knowledge</span> about players on the modelling procedure.</p>
+          </section>
+          <section id="pointers-design">
+            <ol>
+              <li class="fragment">Average user needs <span class="fragment highlight-blue">visuals</span> and <span class="fragment highlight-blue">experiences</span>, not tables.</li>
+              <li class="fragment"><span class="fragment highlight-blue">Check models</span> against reasonable prior information.</li>
+              <li class="fragment">Probability distributions express <i class="fragment highlight-blue">credibility assignments</i>.</li>
+            </ol>
+          </section>
+        </section>
+        <section id="epiphanies">
+          <section id="epiphanies-title-slide">
+            <h1>Epiphanies in Bayes-land</h1>
+          </section>
+          <section id="reflections-probabilistic-programming">
+            <img src="./assets/images/framework/nn/model.png" alt="" width=50%>
+            <p>Deep neural networks are merely another example of a <span class="fragment highlight-red">link function</span>
+              between your data and your output probability distribution parameters.</p>
+          </section>
+          <section id="reflections-on-ml">
+            
+<div class="bk-root" id="445f8e65-1565-42cd-83f7-b41f4c65213b" data-root-id="1569"></div>
+            
+<script type="text/javascript">
+  (function() {
+    var fn = function() {
+      Bokeh.safely(function() {
+        (function(root) {
+          function embed_document(root) {
+            
+          var docs_json = '{"92d164ed-c277-48a6-a509-891e3f4b9088":{"roots":{"references":[{"attributes":{},"id":"1555","type":"Selection"},{"attributes":{},"id":"1552","type":"UnionRenderers"},{"attributes":{},"id":"1559","type":"Selection"},{"attributes":{"bottom":{"field":"bottom"},"fill_color":{"value":"#30a2da"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1516","type":"VBar"},{"attributes":{},"id":"1551","type":"Selection"},{"attributes":{"bottom":{"field":"bottom"},"fill_color":{"value":"#30a2da"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1430","type":"VBar"},{"attributes":{"callback":null,"data":{"Player":["Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Jake Allen","Jake Allen","Jake Allen","Jake Allen","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster"],"index":["Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Dylan Ferguson","Jake Allen","Jake Allen","Jake Allen","Jake Allen","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster"],"p":{"__ndarray__":"pUV5cqBU7D8jVaTQ1GbsP5aMtzwXPuw/j9X3ZnZt7D9S2F6eT1rsPysd0uwKCew/TNADU0OT7D91QRaOkJTsP5MBUhhKk+w/+KpHGi2W7T/m0KBAAFzsP6svukS9Quw/SqGIAClC7D++vayMqB7sPyHqac+baew/","dtype":"float64","shape":[15]}},"selected":{"id":"1551","type":"Selection"},"selection_policy":{"id":"1550","type":"UnionRenderers"}},"id":"1478","type":"ColumnDataSource"},{"attributes":{"bottom":{"field":"bottom"},"fill_alpha":{"value":0.1},"fill_color":{"value":"#30a2da"},"line_alpha":{"value":0.1},"line_color":{"value":"black"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1431","type":"VBar"},{"attributes":{"data_source":{"id":"1428","type":"ColumnDataSource"},"glyph":{"id":"1430","type":"VBar"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1431","type":"VBar"},"selection_glyph":null,"view":{"id":"1433","type":"CDSView"}},"id":"1432","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1428","type":"ColumnDataSource"}},"id":"1433","type":"CDSView"},{"attributes":{"callback":null,"data":{"x0":["Dylan Ferguson","Jake Allen","Scott Foster"],"x1":["Dylan Ferguson","Jake Allen","Scott Foster"],"y0":{"__ndarray__":"NKABdn/P7T/t010a3YjtP4G2xyKb1u0/","dtype":"float64","shape":[3]},"y1":{"__ndarray__":"KPDa/HxM7T92fTqdTC3tP3zxVD23Vu0/","dtype":"float64","shape":[3]}},"selected":{"id":"1553","type":"Selection"},"selection_policy":{"id":"1552","type":"UnionRenderers"}},"id":"1484","type":"ColumnDataSource"},{"attributes":{"source":{"id":"1514","type":"ColumnDataSource"}},"id":"1519","type":"CDSView"},{"attributes":{},"id":"1529","type":"UnionRenderers"},{"attributes":{},"id":"1558","type":"UnionRenderers"},{"attributes":{},"id":"1556","type":"UnionRenderers"},{"attributes":{"fill_color":{"value":"black"},"x":{"field":"index"},"y":{"field":"p"}},"id":"1480","type":"Circle"},{"attributes":{"data_source":{"id":"1502","type":"ColumnDataSource"},"glyph":{"id":"1504","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1505","type":"Segment"},"selection_glyph":null,"view":{"id":"1507","type":"CDSView"}},"id":"1506","type":"GlyphRenderer"},{"attributes":{},"id":"1554","type":"UnionRenderers"},{"attributes":{"data_source":{"id":"1416","type":"ColumnDataSource"},"glyph":{"id":"1418","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1419","type":"Segment"},"selection_glyph":null,"view":{"id":"1421","type":"CDSView"}},"id":"1420","type":"GlyphRenderer"},{"attributes":{"bottom":{"field":"bottom"},"fill_color":{"value":"#30a2da"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1436","type":"VBar"},{"attributes":{"callback":null,"data":{"x0":[["Dylan Ferguson",-0.2],["Jake Allen",-0.2],["Scott Foster",-0.2]],"x1":[["Dylan Ferguson",0.2],["Jake Allen",0.2],["Scott Foster",0.2]],"y0":[0.88874783431851,0.8931508697539817,0.8883135704332845],"y1":[0.88874783431851,0.8931508697539817,0.8883135704332845]},"selected":{"id":"1557","type":"Selection"},"selection_policy":{"id":"1556","type":"UnionRenderers"}},"id":"1496","type":"ColumnDataSource"},{"attributes":{"callback":null,"data":{"x0":["Dylan Ferguson","Jake Allen","Scott Foster"],"x1":["Dylan Ferguson","Jake Allen","Scott Foster"],"y0":{"__ndarray__":"Ej5ZTJ9w7D8FmP8hsZTsP45Ts5QQbew/","dtype":"float64","shape":[3]},"y1":{"__ndarray__":"7KhAtor07D987iKfQfDsPx1/R2BB+ew/","dtype":"float64","shape":[3]}},"selected":{"id":"1555","type":"Selection"},"selection_policy":{"id":"1554","type":"UnionRenderers"}},"id":"1490","type":"ColumnDataSource"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1505","type":"Segment"},{"attributes":{"source":{"id":"1416","type":"ColumnDataSource"}},"id":"1421","type":"CDSView"},{"attributes":{"bottom":{"field":"bottom"},"fill_alpha":{"value":0.1},"fill_color":{"value":"#30a2da"},"line_alpha":{"value":0.1},"line_color":{"value":"black"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1437","type":"VBar"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1487","type":"Segment"},{"attributes":{"data_source":{"id":"1434","type":"ColumnDataSource"},"glyph":{"id":"1436","type":"VBar"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1437","type":"VBar"},"selection_glyph":null,"view":{"id":"1439","type":"CDSView"}},"id":"1438","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1484","type":"ColumnDataSource"}},"id":"1489","type":"CDSView"},{"attributes":{"toolbar":{"id":"1567","type":"ProxyToolbar"},"toolbar_location":"above"},"id":"1568","type":"ToolbarBox"},{"attributes":{"source":{"id":"1434","type":"ColumnDataSource"}},"id":"1439","type":"CDSView"},{"attributes":{},"id":"1557","type":"Selection"},{"attributes":{"data_source":{"id":"1484","type":"ColumnDataSource"},"glyph":{"id":"1486","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1487","type":"Segment"},"selection_glyph":null,"view":{"id":"1489","type":"CDSView"}},"id":"1488","type":"GlyphRenderer"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"black"},"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x":{"field":"index"},"y":{"field":"p"}},"id":"1481","type":"Circle"},{"attributes":{"callback":null,"data":{"Player":["Dylan Ferguson","Jake Allen","Scott Foster"],"bottom":{"__ndarray__":"lLiZAjwZ4D965TMVjv/sP+LvtUedIe0/","dtype":"float64","shape":[3]},"index":["Dylan Ferguson","Jake Allen","Scott Foster"],"p":{"__ndarray__":"lLiZAjwZ4D965TMVjv/sP+LvtUedIe0/","dtype":"float64","shape":[3]},"top":{"__ndarray__":"gBEMRC9F1j+Yr2J1rNTsP2ju3n7R/eo/","dtype":"float64","shape":[3]}},"selected":{"id":"1542","type":"Selection"},"selection_policy":{"id":"1541","type":"UnionRenderers"}},"id":"1434","type":"ColumnDataSource"},{"attributes":{},"id":"1441","type":"CategoricalTickFormatter"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1419","type":"Segment"},{"attributes":{},"id":"1442","type":"BasicTickFormatter"},{"attributes":{"callback":null,"data":{"Player":["Dylan Ferguson","Jake Allen","Scott Foster"],"bottom":{"__ndarray__":"GH5m5aSL5D94B2c5ICLtP6I5Xeia2e4/","dtype":"float64","shape":[3]},"index":["Dylan Ferguson","Jake Allen","Scott Foster"],"p":{"__ndarray__":"lLiZAjwZ4D965TMVjv/sP+LvtUedIe0/","dtype":"float64","shape":[3]},"top":{"__ndarray__":"lLiZAjwZ4D965TMVjv/sP+LvtUedIe0/","dtype":"float64","shape":[3]}},"selected":{"id":"1540","type":"Selection"},"selection_policy":{"id":"1539","type":"UnionRenderers"}},"id":"1428","type":"ColumnDataSource"},{"attributes":{},"id":"1553","type":"Selection"},{"attributes":{"callback":null,"data":{"Player":["Jake Allen","Jake Allen","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster"],"index":["Jake Allen","Jake Allen","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster","Scott Foster"],"p":{"__ndarray__":"z2sXCGGe7T98huHYm1zsPzMAnSZRCeE/HJtLauWz5D8ElqQuigDhPzCyUvdRluQ/xBGQq+kn5T8IN3Zhqn3hPzrhhnQ7O+M/pH7RkkEW5T9mM5wVcx7lP2xuLybqU+Q/us0s81Q43T8gUFdlKf/kP7/QXJm1q+Q/zA2gj+Ai3z+Z1XtdfhTSPyT2NfCD0OQ/4VhvSNgY5D+kbRMPpsDkP/5JInv5X+Q/EYSbZRBL4T+C0v7g4czjP2Yb9ear/uQ/LAGWT+f64T9pZD+NUV3hPw2NwO8R/OQ/+2qYUq2O5D8=","dtype":"float64","shape":[28]}},"selected":{"id":"1530","type":"Selection"},"selection_policy":{"id":"1529","type":"UnionRenderers"}},"id":"1398","type":"ColumnDataSource"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1418","type":"Segment"},{"attributes":{"children":[{"id":"1568","type":"ToolbarBox"},{"id":"1566","type":"GridBox"}]},"id":"1569","type":"Column"},{"attributes":{"bottom":{"field":"bottom"},"fill_alpha":{"value":0.1},"fill_color":{"value":"#30a2da"},"line_alpha":{"value":0.1},"line_color":{"value":"black"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1517","type":"VBar"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1486","type":"Segment"},{"attributes":{"callback":null,"renderers":[{"id":"1482","type":"GlyphRenderer"},{"id":"1512","type":"GlyphRenderer"},{"id":"1518","type":"GlyphRenderer"}],"tags":["hv_created"],"tooltips":[["Player","@{Player}"],["p","@{p}"]]},"id":"1445","type":"HoverTool"},{"attributes":{"callback":null,"factors":["Dylan Ferguson","Jake Allen","Scott Foster"],"tags":[[["Player","Player",null]]]},"id":"1444","type":"FactorRange"},{"attributes":{"source":{"id":"1398","type":"ColumnDataSource"}},"id":"1403","type":"CDSView"},{"attributes":{"data_source":{"id":"1398","type":"ColumnDataSource"},"glyph":{"id":"1400","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1401","type":"Circle"},"selection_glyph":null,"view":{"id":"1403","type":"CDSView"}},"id":"1402","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1508","type":"ColumnDataSource"}},"id":"1513","type":"CDSView"},{"attributes":{"callback":null,"end":0.9999777424685812,"reset_end":0.9999777424685812,"reset_start":0.005290856760469976,"start":0.005290856760469976,"tags":[[["p","p",null]]]},"id":"1364","type":"Range1d"},{"attributes":{},"id":"1533","type":"UnionRenderers"},{"attributes":{},"id":"1560","type":"UnionRenderers"},{"attributes":{"callback":null,"factors":["Dylan Ferguson","Jake Allen","Scott Foster"],"tags":[[["Player","Player",null]]]},"id":"1363","type":"FactorRange"},{"attributes":{"data_source":{"id":"1508","type":"ColumnDataSource"},"glyph":{"id":"1510","type":"VBar"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1511","type":"VBar"},"selection_glyph":null,"view":{"id":"1513","type":"CDSView"}},"id":"1512","type":"GlyphRenderer"},{"attributes":{"data_source":{"id":"1422","type":"ColumnDataSource"},"glyph":{"id":"1424","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1425","type":"Segment"},"selection_glyph":null,"view":{"id":"1427","type":"CDSView"}},"id":"1426","type":"GlyphRenderer"},{"attributes":{},"id":"1536","type":"Selection"},{"attributes":{"callback":null,"renderers":[{"id":"1402","type":"GlyphRenderer"},{"id":"1432","type":"GlyphRenderer"},{"id":"1438","type":"GlyphRenderer"}],"tags":["hv_created"],"tooltips":[["Player","@{Player}"],["p","@{p}"]]},"id":"1365","type":"HoverTool"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"black"},"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x":{"field":"index"},"y":{"field":"p"}},"id":"1401","type":"Circle"},{"attributes":{"source":{"id":"1422","type":"ColumnDataSource"}},"id":"1427","type":"CDSView"},{"attributes":{"below":[{"id":"1455","type":"CategoricalAxis"}],"center":[{"id":"1458","type":"Grid"},{"id":"1463","type":"Grid"}],"left":[{"id":"1459","type":"LinearAxis"}],"margin":null,"min_border_bottom":10,"min_border_left":10,"min_border_right":10,"min_border_top":10,"plot_height":400,"plot_width":400,"renderers":[{"id":"1482","type":"GlyphRenderer"},{"id":"1488","type":"GlyphRenderer"},{"id":"1494","type":"GlyphRenderer"},{"id":"1500","type":"GlyphRenderer"},{"id":"1506","type":"GlyphRenderer"},{"id":"1512","type":"GlyphRenderer"},{"id":"1518","type":"GlyphRenderer"}],"sizing_mode":"fixed","title":{"id":"1447","type":"Title"},"toolbar":{"id":"1470","type":"Toolbar"},"toolbar_location":null,"x_range":{"id":"1444","type":"FactorRange"},"x_scale":{"id":"1451","type":"CategoricalScale"},"y_range":{"id":"1364","type":"Range1d"},"y_scale":{"id":"1453","type":"LinearScale"}},"id":"1446","subtype":"Figure","type":"Plot"},{"attributes":{"fill_color":{"value":"black"},"x":{"field":"index"},"y":{"field":"p"}},"id":"1400","type":"Circle"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1424","type":"Segment"},{"attributes":{},"id":"1535","type":"UnionRenderers"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1492","type":"Segment"},{"attributes":{"text":"","text_color":{"value":"black"},"text_font_size":{"value":"12pt"}},"id":"1447","type":"Title"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1493","type":"Segment"},{"attributes":{},"id":"1451","type":"CategoricalScale"},{"attributes":{"source":{"id":"1478","type":"ColumnDataSource"}},"id":"1483","type":"CDSView"},{"attributes":{"data_source":{"id":"1490","type":"ColumnDataSource"},"glyph":{"id":"1492","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1493","type":"Segment"},"selection_glyph":null,"view":{"id":"1495","type":"CDSView"}},"id":"1494","type":"GlyphRenderer"},{"attributes":{"callback":null,"data":{"Player":["Dylan Ferguson","Jake Allen","Scott Foster"],"bottom":{"__ndarray__":"lAYdxDwn7T8HNSvGLBDtP+85f2BxJe0/","dtype":"float64","shape":[3]},"index":["Dylan Ferguson","Jake Allen","Scott Foster"],"p":{"__ndarray__":"lAYdxDwn7T8HNSvGLBDtP+85f2BxJe0/","dtype":"float64","shape":[3]},"top":{"__ndarray__":"7KhAtor07D987iKfQfDsPx1/R2BB+ew/","dtype":"float64","shape":[3]}},"selected":{"id":"1563","type":"Selection"},"selection_policy":{"id":"1562","type":"UnionRenderers"}},"id":"1514","type":"ColumnDataSource"},{"attributes":{},"id":"1453","type":"LinearScale"},{"attributes":{"callback":null,"data":{"x0":["Dylan Ferguson","Jake Allen","Scott Foster"],"x1":["Dylan Ferguson","Jake Allen","Scott Foster"],"y0":{"__ndarray__":"A1gubH7p7j9Ii23fTZbtP8gslFLR/+8/","dtype":"float64","shape":[3]},"y1":{"__ndarray__":"GH5m5aSL5D94B2c5ICLtP6I5Xeia2e4/","dtype":"float64","shape":[3]}},"selected":{"id":"1532","type":"Selection"},"selection_policy":{"id":"1531","type":"UnionRenderers"}},"id":"1404","type":"ColumnDataSource"},{"attributes":{"source":{"id":"1490","type":"ColumnDataSource"}},"id":"1495","type":"CDSView"},{"attributes":{"axis_label":"Player","bounds":"auto","formatter":{"id":"1521","type":"CategoricalTickFormatter"},"major_label_orientation":"horizontal","ticker":{"id":"1456","type":"CategoricalTicker"}},"id":"1455","type":"CategoricalAxis"},{"attributes":{"below":[{"id":"1375","type":"CategoricalAxis"}],"center":[{"id":"1378","type":"Grid"},{"id":"1383","type":"Grid"}],"left":[{"id":"1379","type":"LinearAxis"}],"margin":null,"min_border_bottom":10,"min_border_left":10,"min_border_right":10,"min_border_top":10,"plot_height":400,"plot_width":400,"renderers":[{"id":"1402","type":"GlyphRenderer"},{"id":"1408","type":"GlyphRenderer"},{"id":"1414","type":"GlyphRenderer"},{"id":"1420","type":"GlyphRenderer"},{"id":"1426","type":"GlyphRenderer"},{"id":"1432","type":"GlyphRenderer"},{"id":"1438","type":"GlyphRenderer"}],"sizing_mode":"fixed","title":{"id":"1367","type":"Title"},"toolbar":{"id":"1390","type":"Toolbar"},"toolbar_location":null,"x_range":{"id":"1363","type":"FactorRange"},"x_scale":{"id":"1371","type":"CategoricalScale"},"y_range":{"id":"1364","type":"Range1d"},"y_scale":{"id":"1373","type":"LinearScale"}},"id":"1366","subtype":"Figure","type":"Plot"},{"attributes":{},"id":"1532","type":"Selection"},{"attributes":{"source":{"id":"1502","type":"ColumnDataSource"}},"id":"1507","type":"CDSView"},{"attributes":{},"id":"1456","type":"CategoricalTicker"},{"attributes":{"data_source":{"id":"1478","type":"ColumnDataSource"},"glyph":{"id":"1480","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1481","type":"Circle"},"selection_glyph":null,"view":{"id":"1483","type":"CDSView"}},"id":"1482","type":"GlyphRenderer"},{"attributes":{"text":"","text_color":{"value":"black"},"text_font_size":{"value":"12pt"}},"id":"1367","type":"Title"},{"attributes":{"grid_line_color":null,"ticker":{"id":"1456","type":"CategoricalTicker"}},"id":"1458","type":"Grid"},{"attributes":{"callback":null,"data":{"x0":[["Dylan Ferguson",-0.2],["Jake Allen",-0.2],["Scott Foster",-0.2]],"x1":[["Dylan Ferguson",0.2],["Jake Allen",0.2],["Scott Foster",0.2]],"y0":[0.9315793328105486,0.9229569926234241,0.9324470214175592],"y1":[0.9315793328105486,0.9229569926234241,0.9324470214175592]},"selected":{"id":"1559","type":"Selection"},"selection_policy":{"id":"1558","type":"UnionRenderers"}},"id":"1502","type":"ColumnDataSource"},{"attributes":{"axis_label":"p","bounds":"auto","formatter":{"id":"1522","type":"BasicTickFormatter"},"major_label_orientation":"horizontal","ticker":{"id":"1460","type":"BasicTicker"}},"id":"1459","type":"LinearAxis"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1564","type":"BoxAnnotation"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1425","type":"Segment"},{"attributes":{"callback":null,"data":{"Player":["Dylan Ferguson","Jake Allen","Scott Foster"],"bottom":{"__ndarray__":"KPDa/HxM7T92fTqdTC3tP3zxVD23Vu0/","dtype":"float64","shape":[3]},"index":["Dylan Ferguson","Jake Allen","Scott Foster"],"p":{"__ndarray__":"lAYdxDwn7T8HNSvGLBDtP+85f2BxJe0/","dtype":"float64","shape":[3]},"top":{"__ndarray__":"lAYdxDwn7T8HNSvGLBDtP+85f2BxJe0/","dtype":"float64","shape":[3]}},"selected":{"id":"1561","type":"Selection"},"selection_policy":{"id":"1560","type":"UnionRenderers"}},"id":"1508","type":"ColumnDataSource"},{"attributes":{},"id":"1460","type":"BasicTicker"},{"attributes":{},"id":"1389","type":"PanTool"},{"attributes":{},"id":"1537","type":"UnionRenderers"},{"attributes":{},"id":"1563","type":"Selection"},{"attributes":{"dimension":1,"grid_line_color":null,"ticker":{"id":"1460","type":"BasicTicker"}},"id":"1463","type":"Grid"},{"attributes":{},"id":"1530","type":"Selection"},{"attributes":{"overlay":{"id":"1543","type":"BoxAnnotation"}},"id":"1387","type":"BoxZoomTool"},{"attributes":{},"id":"1538","type":"Selection"},{"attributes":{},"id":"1388","type":"ResetTool"},{"attributes":{},"id":"1539","type":"UnionRenderers"},{"attributes":{},"id":"1386","type":"WheelZoomTool"},{"attributes":{"callback":null,"data":{"x0":["Dylan Ferguson","Jake Allen","Scott Foster"],"x1":["Dylan Ferguson","Jake Allen","Scott Foster"],"y0":{"__ndarray__":"QYsQjN2rdT/IK1zPfmDsP5F9oWAjNOU/","dtype":"float64","shape":[3]},"y1":{"__ndarray__":"gBEMRC9F1j+Yr2J1rNTsP2ju3n7R/eo/","dtype":"float64","shape":[3]}},"selected":{"id":"1534","type":"Selection"},"selection_policy":{"id":"1533","type":"UnionRenderers"}},"id":"1410","type":"ColumnDataSource"},{"attributes":{},"id":"1385","type":"PanTool"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1445","type":"HoverTool"},{"id":"1464","type":"SaveTool"},{"id":"1465","type":"PanTool"},{"id":"1466","type":"WheelZoomTool"},{"id":"1467","type":"BoxZoomTool"},{"id":"1468","type":"ResetTool"},{"id":"1469","type":"PanTool"}]},"id":"1470","type":"Toolbar"},{"attributes":{},"id":"1464","type":"SaveTool"},{"attributes":{"data_source":{"id":"1514","type":"ColumnDataSource"},"glyph":{"id":"1516","type":"VBar"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1517","type":"VBar"},"selection_glyph":null,"view":{"id":"1519","type":"CDSView"}},"id":"1518","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1410","type":"ColumnDataSource"}},"id":"1415","type":"CDSView"},{"attributes":{},"id":"1531","type":"UnionRenderers"},{"attributes":{},"id":"1384","type":"SaveTool"},{"attributes":{},"id":"1465","type":"PanTool"},{"attributes":{},"id":"1540","type":"Selection"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1413","type":"Segment"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1498","type":"Segment"},{"attributes":{},"id":"1466","type":"WheelZoomTool"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1365","type":"HoverTool"},{"id":"1384","type":"SaveTool"},{"id":"1385","type":"PanTool"},{"id":"1386","type":"WheelZoomTool"},{"id":"1387","type":"BoxZoomTool"},{"id":"1388","type":"ResetTool"},{"id":"1389","type":"PanTool"}]},"id":"1390","type":"Toolbar"},{"attributes":{"data_source":{"id":"1410","type":"ColumnDataSource"},"glyph":{"id":"1412","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1413","type":"Segment"},"selection_glyph":null,"view":{"id":"1415","type":"CDSView"}},"id":"1414","type":"GlyphRenderer"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1499","type":"Segment"},{"attributes":{"overlay":{"id":"1564","type":"BoxAnnotation"}},"id":"1467","type":"BoxZoomTool"},{"attributes":{"tools":[{"id":"1365","type":"HoverTool"},{"id":"1384","type":"SaveTool"},{"id":"1385","type":"PanTool"},{"id":"1386","type":"WheelZoomTool"},{"id":"1387","type":"BoxZoomTool"},{"id":"1388","type":"ResetTool"},{"id":"1389","type":"PanTool"},{"id":"1445","type":"HoverTool"},{"id":"1464","type":"SaveTool"},{"id":"1465","type":"PanTool"},{"id":"1466","type":"WheelZoomTool"},{"id":"1467","type":"BoxZoomTool"},{"id":"1468","type":"ResetTool"},{"id":"1469","type":"PanTool"}]},"id":"1567","type":"ProxyToolbar"},{"attributes":{"data_source":{"id":"1496","type":"ColumnDataSource"},"glyph":{"id":"1498","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1499","type":"Segment"},"selection_glyph":null,"view":{"id":"1501","type":"CDSView"}},"id":"1500","type":"GlyphRenderer"},{"attributes":{},"id":"1468","type":"ResetTool"},{"attributes":{"source":{"id":"1496","type":"ColumnDataSource"}},"id":"1501","type":"CDSView"},{"attributes":{},"id":"1469","type":"PanTool"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1543","type":"BoxAnnotation"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1412","type":"Segment"},{"attributes":{},"id":"1380","type":"BasicTicker"},{"attributes":{"dimension":1,"grid_line_color":null,"ticker":{"id":"1380","type":"BasicTicker"}},"id":"1383","type":"Grid"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1406","type":"Segment"},{"attributes":{"bottom":{"field":"bottom"},"fill_color":{"value":"#30a2da"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1510","type":"VBar"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"black"},"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1407","type":"Segment"},{"attributes":{},"id":"1562","type":"UnionRenderers"},{"attributes":{"data_source":{"id":"1404","type":"ColumnDataSource"},"glyph":{"id":"1406","type":"Segment"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1407","type":"Segment"},"selection_glyph":null,"view":{"id":"1409","type":"CDSView"}},"id":"1408","type":"GlyphRenderer"},{"attributes":{},"id":"1522","type":"BasicTickFormatter"},{"attributes":{"source":{"id":"1404","type":"ColumnDataSource"}},"id":"1409","type":"CDSView"},{"attributes":{"children":[[{"id":"1366","subtype":"Figure","type":"Plot"},0,0],[{"id":"1446","subtype":"Figure","type":"Plot"},0,1]]},"id":"1566","type":"GridBox"},{"attributes":{},"id":"1550","type":"UnionRenderers"},{"attributes":{"axis_label":"p","bounds":"auto","formatter":{"id":"1442","type":"BasicTickFormatter"},"major_label_orientation":"horizontal","ticker":{"id":"1380","type":"BasicTicker"}},"id":"1379","type":"LinearAxis"},{"attributes":{},"id":"1521","type":"CategoricalTickFormatter"},{"attributes":{"grid_line_color":null,"ticker":{"id":"1376","type":"CategoricalTicker"}},"id":"1378","type":"Grid"},{"attributes":{"bottom":{"field":"bottom"},"fill_alpha":{"value":0.1},"fill_color":{"value":"#30a2da"},"line_alpha":{"value":0.1},"line_color":{"value":"black"},"top":{"field":"top"},"width":{"value":0.7},"x":{"field":"index"}},"id":"1511","type":"VBar"},{"attributes":{},"id":"1542","type":"Selection"},{"attributes":{},"id":"1541","type":"UnionRenderers"},{"attributes":{},"id":"1561","type":"Selection"},{"attributes":{"callback":null,"data":{"x0":[["Dylan Ferguson",-0.2],["Jake Allen",-0.2],["Scott Foster",-0.2]],"x1":[["Dylan Ferguson",0.2],["Jake Allen",0.2],["Scott Foster",0.2]],"y0":[0.005290856760469976,0.8867792177201119,0.6626145255394694],"y1":[0.005290856760469976,0.8867792177201119,0.6626145255394694]},"selected":{"id":"1536","type":"Selection"},"selection_policy":{"id":"1535","type":"UnionRenderers"}},"id":"1416","type":"ColumnDataSource"},{"attributes":{},"id":"1376","type":"CategoricalTicker"},{"attributes":{"axis_label":"Player","bounds":"auto","formatter":{"id":"1441","type":"CategoricalTickFormatter"},"major_label_orientation":"horizontal","ticker":{"id":"1376","type":"CategoricalTicker"}},"id":"1375","type":"CategoricalAxis"},{"attributes":{},"id":"1373","type":"LinearScale"},{"attributes":{"x0":{"field":"x0"},"x1":{"field":"x1"},"y0":{"field":"y0"},"y1":{"field":"y1"}},"id":"1504","type":"Segment"},{"attributes":{},"id":"1371","type":"CategoricalScale"},{"attributes":{"callback":null,"data":{"x0":[["Dylan Ferguson",-0.2],["Jake Allen",-0.2],["Scott Foster",-0.2]],"x1":[["Dylan Ferguson",0.2],["Jake Allen",0.2],["Scott Foster",0.2]],"y0":[0.9660026657973052,0.9245976795030879,0.9999777424685812],"y1":[0.9660026657973052,0.9245976795030879,0.9999777424685812]},"selected":{"id":"1538","type":"Selection"},"selection_policy":{"id":"1537","type":"UnionRenderers"}},"id":"1422","type":"ColumnDataSource"},{"attributes":{},"id":"1534","type":"Selection"}],"root_ids":["1569"]},"title":"Bokeh Application","version":"1.2.0"}}';
+          var render_items = [{"docid":"92d164ed-c277-48a6-a509-891e3f4b9088","roots":{"1569":"445f8e65-1565-42cd-83f7-b41f4c65213b"}}];
+          root.Bokeh.embed.embed_items(docs_json, render_items);
+        
+          }
+          if (root.Bokeh !== undefined) {
+            embed_document(root);
+          } else {
+            var attempts = 0;
+            var timer = setInterval(function(root) {
+              if (root.Bokeh !== undefined) {
+                embed_document(root);
+                clearInterval(timer);
+              }
+              attempts++;
+              if (attempts > 100) {
+                console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                clearInterval(timer);
+              }
+            }, 10, root)
+          }
+        })(window);
+      });
+    };
+    if (document.readyState != "loading") fn();
+    else document.addEventListener("DOMContentLoaded", fn);
+  })();
+</script>
+            <p>Bayesian methods can help us design more reasonably.</p>
+          </section>
+          <section id="reflections-fret-not-1">
+            <img src="./assets/images/bayesian-framework.png" alt="" width=55%>
+            <p>Fret not, it's curve fitting...</p>
+          </section>
+          <section id="reflections-fret-not-2">
+            <img src="./assets/images/all-the-way-down.png" alt="">
+            <p>...all the way down! 😄</p>
+          </section>
+        </section>
+          <section id="thank-you">
+            <img style="align-content: right" src="./assets/images/digility.gif" alt="">
+          </section>
+        </section>
+      </div>
+    </div>
+    <script src="./assets/revealjs/js/reveal.js"></script>
+    <script type="text/javascript">
+      Reveal.initialize({
+        history: true,
+        dependencies: [
+                    // Syntax highlight for <code> elements
+                    { src: './assets/revealjs/plugin/highlight/highlight.js',
+                      async: true,
+                      callback: function() { hljs.initHighlightingOnLoad(); } },
+                ]
+      });
+    </script>
+  </body>
+</html>
